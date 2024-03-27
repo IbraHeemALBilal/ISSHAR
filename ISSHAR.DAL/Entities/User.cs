@@ -10,6 +10,9 @@
         public string Role { get; set;}
 
         public ICollection<Advertisement> Advertisements { set; get;}
+        public ICollection<Hall> Halls { set; get; }
+        public ICollection<Booking> Bookings { set; get; }
+
 
     }
 }

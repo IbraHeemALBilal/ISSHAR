@@ -20,6 +20,15 @@ namespace ISSHAR.DAL.Configurations
                   .WithOne(a => a.User)
                   .HasForeignKey(a => a.UserId)
                   .OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(u => u.Bookings)
+                  .WithOne(a => a.User)
+                  .HasForeignKey(a => a.UserId)
+                  .OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(u => u.Halls)
+                  .WithOne(a => a.User)
+                  .HasForeignKey(a => a.UserId)
+                  .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }
