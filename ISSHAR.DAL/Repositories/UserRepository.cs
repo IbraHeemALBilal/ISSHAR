@@ -1,4 +1,5 @@
 ﻿using ISSHAR.DAL.Entities;
+using ISSHAR.DAL.Extentions;
 using Microsoft.EntityFrameworkCore;
 
 namespace ISSHAR.DAL.Repositories
