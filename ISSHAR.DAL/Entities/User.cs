@@ -10,11 +10,6 @@
         public string Role { get; set;}
 
         public ICollection<Advertisement> Advertisements { set; get;}
-        public void HashPassword()
-        {
-            Password = BCrypt.Net.BCrypt.HashPassword(Password);
-        }
-
 
     }
 }
