@@ -1,13 +1,13 @@
-﻿
-namespace ISSHAR.DAL.Entities
+﻿namespace ISSHAR.DAL.Entities
 {
     public class Booking
     {
         public int BookingId { get; set; }
-        public int HallId { get; set; }
         public int UserId { set; get; }
-        public DateTime StartDate { get; set; } = DateTime.Now;
+        public int HallId { get; set; }
+        public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set;}
+
         public User User { get; set; }
         public Hall Hall { get; set; }
 

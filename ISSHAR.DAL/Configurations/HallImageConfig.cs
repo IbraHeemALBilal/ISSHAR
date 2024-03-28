@@ -8,15 +8,10 @@ namespace ISSHAR.DAL.Configurations
         {
             public void Configure(EntityTypeBuilder<HallImage> builder)
             {
-                builder.HasKey(a => a.ImageId);
-                builder.Property(a => a.ImageId).ValueGeneratedOnAdd();
-                builder.Property(a => a.ImageUrl).IsRequired().HasMaxLength(255);
-                builder.Property(a => a.ImageUrl).IsRequired();
-
-                builder.HasOne(a => a.Hall)
-                       .WithMany(u => u.HallImages)
-                       .HasForeignKey(a => a.HallId)
-                       .OnDelete(DeleteBehavior.Cascade);
+                builder.HasKey(hi => hi.HallImageId);
+                builder.Property(hi => hi.HallImageId).IsRequired().ValueGeneratedOnAdd();
+                builder.Property(hi => hi.ImageUrl).IsRequired().HasMaxLength(255);
+                builder.Property(hi => hi.ImageUrl).IsRequired();
             }
         }
 }
