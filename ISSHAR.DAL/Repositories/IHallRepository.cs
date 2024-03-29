@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ISSHAR.DAL.Entities;
 
 namespace ISSHAR.DAL.Repositories
 {
-    internal class IHallRepository
+    public interface IHallRepository
     {
+        Task<ICollection<Hall>> GetAllAsync();
+        Task<Hall> GetByIdAsync(int id);
+        Task AddAsync(Hall hall);
+        Task UpdateAsync(Hall hall);
+        Task DeleteAsync(Hall hall);
+        Task SaveChangesAsync();
+        Task<ICollection<Hall>> GetHallsByOwnerIdAsync(int id);
     }
 }

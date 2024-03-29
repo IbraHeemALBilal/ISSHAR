@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ISSHAR.DAL.Entities;
 
 namespace ISSHAR.DAL.Repositories
 {
-    internal class IBookingRepository
+    public interface IBookingRepository
     {
+        Task<ICollection<Booking>> GetAllAsync();
+        Task<Booking> GetByIdAsync(int id);
+        Task AddAsync(Booking booking);
+        Task DeleteAsync(Booking booking);
+        Task SaveChangesAsync();
     }
 }

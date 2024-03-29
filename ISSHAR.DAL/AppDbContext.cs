@@ -7,6 +7,9 @@ namespace ISSHAR.DAL
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Advertisement> Advertisements { get; set; }
+        public DbSet<Hall> Halls { get; set; }
+        public DbSet<HallImage> HallImages { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -23,7 +26,7 @@ namespace ISSHAR.DAL
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace ISSHAR.DAL.Configurations
         public void Configure(EntityTypeBuilder<Advertisement> builder)
         {
             builder.HasKey(a => a.AdvertisementId);
-            builder.Property(a => a.AdvertisementId).ValueGeneratedOnAdd();
+            builder.Property(a => a.AdvertisementId).IsRequired().ValueGeneratedOnAdd();
             builder.Property(a => a.Title).IsRequired().HasMaxLength(255);
             builder.Property(a => a.Description).IsRequired();
             builder.Property(a => a.ImageUrl).HasMaxLength(255);

@@ -8,26 +8,30 @@ namespace ISSHAR.DAL.Configurations
         {
             public void Configure(EntityTypeBuilder<Hall> builder)
             {
-                builder.HasKey(a => a.HallId);
-                builder.Property(a => a.HallId).ValueGeneratedOnAdd();
-                builder.Property(a => a.UserId).IsRequired();
-                builder.Property(a => a.Name).IsRequired().HasMaxLength(255);
-                builder.Property(a => a.location).IsRequired().HasMaxLength(255);
-                builder.Property(a => a.Capacity).IsRequired();
+                builder.HasKey(h => h.HallId);
+                builder.Property(h => h.HallId).IsRequired().ValueGeneratedOnAdd();
+                builder.Property(h => h.OwnerId).IsRequired();
+                builder.Property(h => h.Name).IsRequired().HasMaxLength(255);
+                builder.Property(h => h.Description).IsRequired().HasMaxLength(255);
+                builder.Property(h => h.City).IsRequired().HasMaxLength(255);
+                builder.Property(h => h.Address).IsRequired().HasMaxLength(255);
+                builder.Property(h => h.Logo).IsRequired().HasMaxLength(255);
+                builder.Property(h => h.Capacity).IsRequired();
+                builder.Property(h => h.PartyPrice).IsRequired();
 
-               builder.HasOne(a => a.User)
+            builder.HasOne(h => h.Owner)
                        .WithMany(u => u.Halls)
-                       .HasForeignKey(a => a.UserId)
+                       .HasForeignKey(a => a.OwnerId)
                        .OnDelete(DeleteBehavior.Cascade);
-               builder.HasMany(u => u.Bookings)
-                  .WithOne(a => a.Hall)
-                  .HasForeignKey(a => a.HallId)
-                  .OnDelete(DeleteBehavior.Cascade);
-               builder.HasMany(u => u.HallImages)
-                .WithOne(a => a.Hall)
-                .HasForeignKey(a => a.HallId)
+               builder.HasMany(h => h.Bookings)
+                  .WithOne(b => b.Hall)
+                  .HasForeignKey(b => b.HallId)
+                  .OnDelete(DeleteBehavior.NoAction);
+               builder.HasMany(h => h.HallImages)
+                .WithOne(hi => hi.Hall)
+                .HasForeignKey(hi => hi.HallId)
                 .OnDelete(DeleteBehavior.Cascade);
-        }
+            }
         }
     
 }
