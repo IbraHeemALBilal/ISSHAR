@@ -17,10 +17,6 @@ namespace ISSHAR.DAL.Configurations
             builder.Property(u => u.Gender).IsRequired();
             builder.Property(u => u.Role).IsRequired().HasMaxLength(20);
 
-            builder.HasMany(u => u.Advertisements)
-                  .WithOne(a => a.User)
-                  .HasForeignKey(a => a.UserId)
-                  .OnDelete(DeleteBehavior.Cascade);
             builder.HasMany(u => u.Bookings)
                   .WithOne(b => b.User)
                   .HasForeignKey(b => b.UserId)
