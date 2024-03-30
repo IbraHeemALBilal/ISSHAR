@@ -6,17 +6,6 @@ namespace ISSHAR.DAL.Repositories
     public class BookingRepository : IBookingRepository
     {
         private readonly AppDbContext _context;
-
-        public async Task AddAsync(Booking booking)
-        {
-            await _context.Bookings.AddAsync(booking);
-            await SaveChangesAsync();
-        }
-        public async Task DeleteAsync(Booking booking)
-        {
-            _context.Bookings.Remove(booking);
-            await SaveChangesAsync();
-        }
         public async Task<ICollection<Booking>> GetAllAsync()
         {
             return await _context.Bookings.AsNoTracking().ToListAsync();
@@ -27,16 +16,24 @@ namespace ISSHAR.DAL.Repositories
             return await _context.Bookings.AsNoTracking().FirstOrDefaultAsync(a => a.BookingId == id);
 
         }
-
-        public async Task SaveChangesAsync()
+        public async Task AddAsync(Booking booking)
         {
-            await _context.SaveChangesAsync();
+            await _context.Bookings.AddAsync(booking);
+            await SaveChangesAsync();
         }
-
+        public async Task DeleteAsync(Booking booking)
+        {
+            _context.Bookings.Remove(booking);
+            await SaveChangesAsync();
+        }
         public async Task UpdateAsync(Booking booking)
         {
             _context.Bookings.Update(booking);
             await SaveChangesAsync();
+        }
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }
