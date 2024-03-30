@@ -1,4 +1,4 @@
-﻿using ISSHAR.DAL.Entities;
+using ISSHAR.DAL.Entities;
 
 namespace ISSHAR.DAL.Repositories
 {
