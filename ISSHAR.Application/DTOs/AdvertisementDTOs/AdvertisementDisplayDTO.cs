@@ -8,6 +8,7 @@
         public string ImageUrl { get; set; }
         public string PhoneNumber { get; set; }
         public string City { get; set; }
+        public int UserId { get; set; } 
         public DateTime DatePosted { get; set; }
         public string ServiceType { get; set; }
     }
