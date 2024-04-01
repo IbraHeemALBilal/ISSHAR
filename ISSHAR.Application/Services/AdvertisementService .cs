@@ -11,9 +11,9 @@ namespace ISSHAR.Application.Services
     {
         private readonly IAdvertisementRepository _advertisementRepository;
         private readonly IMapper _mapper;
-        private readonly ILogger<AdvertisementService> _logger;
+        private readonly ILogger<IAdvertisementService> _logger;
 
-        public AdvertisementService(IAdvertisementRepository advertisementRepository, IMapper mapper, ILogger<AdvertisementService> logger)
+        public AdvertisementService(IAdvertisementRepository advertisementRepository, IMapper mapper, ILogger<IAdvertisementService> logger)
         {
             _advertisementRepository = advertisementRepository;
             _mapper = mapper;
@@ -132,5 +132,7 @@ namespace ISSHAR.Application.Services
                 throw;
             }
         }
+
+
     }
 }
