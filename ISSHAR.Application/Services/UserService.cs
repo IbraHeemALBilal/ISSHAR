@@ -26,9 +26,9 @@ namespace ISSHAR.Application.Survices
             return await _userRepository.GetByIdAsync(id);
         }
 
-        public async Task AddUserAsync(UserDTO userDto)
+        public async Task AddUserAsync(UserDTO userDTO)
         {
-            var user = _mapper.Map<User>(userDto);
+            var user = _mapper.Map<User>(userDTO);
             await _userRepository.AddAsync(user);
         }
     }

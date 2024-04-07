@@ -9,6 +9,8 @@ namespace ISSHAR.DAL.Repositories
         Task AddAsync(Booking booking);
         Task UpdateAsync(Booking booking);
         Task DeleteAsync(Booking booking);
+        Task<ICollection<Booking>> GetByHallIdAsync(int hallId);
+        Task<ICollection<Booking>> GetByUserIdAsync(int userId);
         Task SaveChangesAsync();
     }
 }
