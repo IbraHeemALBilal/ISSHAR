@@ -31,7 +31,7 @@ namespace ISSHAR.DAL.Repositories
             _context.Halls.Update(hall);
             await SaveChangesAsync();
         }
-        public async Task<ICollection<Hall>> GetHallsByOwnerIdAsync(int id)
+        public async Task<ICollection<Hall>> GetByOwnerIdAsync(int id)
         {
             return await _context.Halls.AsNoTracking().Where(a => a.OwnerId == id).ToListAsync();
         }
