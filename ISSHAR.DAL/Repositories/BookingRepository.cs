@@ -31,6 +31,17 @@ namespace ISSHAR.DAL.Repositories
             _context.Bookings.Update(booking);
             await SaveChangesAsync();
         }
+        public async Task<ICollection<Booking>> GetByHallIdAsync(int hallId)
+        {
+            return await _context.Bookings.AsNoTracking().Where(b=>b.HallId==hallId).ToListAsync();
+
+        }
+        public async Task<ICollection<Booking>> GetByUserIdAsync(int userId)
+        {
+            return await _context.Bookings.AsNoTracking().Where(b => b.UserId == userId).ToListAsync();
+
+        }
+
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();

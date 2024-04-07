@@ -25,8 +25,8 @@ namespace ISSHAR.Application.Services
             try
             {
                 var advertisements = await _advertisementRepository.GetAllAsync();
-                var advertisementDtos = _mapper.Map<ICollection<AdvertisementDisplayDTO>>(advertisements);
-                return advertisementDtos;
+                var advertisementDTOs = _mapper.Map<ICollection<AdvertisementDisplayDTO>>(advertisements);
+                return advertisementDTOs;
             }
             catch (Exception ex)
             {
@@ -40,8 +40,8 @@ namespace ISSHAR.Application.Services
             try
             {
                 var advertisement = await _advertisementRepository.GetByIdAsync(id);
-                var advertisementDto = _mapper.Map<AdvertisementDisplayDTO>(advertisement);
-                return advertisementDto;
+                var advertisementDTO = _mapper.Map<AdvertisementDisplayDTO>(advertisement);
+                return advertisementDTO;
             }
             catch (Exception ex)
             {
@@ -50,11 +50,11 @@ namespace ISSHAR.Application.Services
             }
         }
 
-        public async Task AddAsync(AdvertisementDTO advertisementDto)
+        public async Task AddAsync(AdvertisementDTO advertisementDTO)
         {
             try
             {
-                var advertisement = _mapper.Map<Advertisement>(advertisementDto);
+                var advertisement = _mapper.Map<Advertisement>(advertisementDTO);
                 await _advertisementRepository.AddAsync(advertisement);
             }
             catch (Exception ex)
@@ -64,16 +64,16 @@ namespace ISSHAR.Application.Services
             }
         }
 
-        public async Task<bool> UpdateAsync(int id, AdvertisementDTO advertisementDto)
+        public async Task<bool> UpdateAsync(int id, AdvertisementDTO advertisementDTO)
         {
             try
             {
                 var existingAdvertisement = await _advertisementRepository.GetByIdAsync(id);
-                if (existingAdvertisement == null)
+                if (existingAdvertisement is null)
                 {
                     return false;
                 }
-                _mapper.Map(advertisementDto, existingAdvertisement);
+                _mapper.Map(advertisementDTO, existingAdvertisement);
                 await _advertisementRepository.UpdateAsync(existingAdvertisement);
                 return true;
             }
@@ -89,7 +89,7 @@ namespace ISSHAR.Application.Services
             try
             {
                 var existingAdvertisement = await _advertisementRepository.GetByIdAsync(id);
-                if (existingAdvertisement == null)
+                if (existingAdvertisement is null)
                 {
                     return false;
                 }
@@ -108,8 +108,8 @@ namespace ISSHAR.Application.Services
             try
             {
                 var advertisements = await _advertisementRepository.GetAdsByUserAsync(userId);
-                var advertisementDtos = _mapper.Map<ICollection<AdvertisementDisplayDTO>>(advertisements);
-                return advertisementDtos;
+                var advertisementDTOs = _mapper.Map<ICollection<AdvertisementDisplayDTO>>(advertisements);
+                return advertisementDTOs;
             }
             catch (Exception ex)
             {
@@ -123,8 +123,8 @@ namespace ISSHAR.Application.Services
             try
             {
                 var advertisements = await _advertisementRepository.GetFilteredAdsAsync(advertisementFilterBody.City, advertisementFilterBody.ServiceType);
-                var advertisementDtos = _mapper.Map<ICollection<AdvertisementDisplayDTO>>(advertisements);
-                return advertisementDtos;
+                var advertisementDTOs = _mapper.Map<ICollection<AdvertisementDisplayDTO>>(advertisements);
+                return advertisementDTOs;
             }
             catch (Exception ex)
             {

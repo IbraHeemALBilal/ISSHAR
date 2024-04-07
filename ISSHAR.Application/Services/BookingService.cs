@@ -24,8 +24,8 @@ namespace ISSHAR.Application.Services
             try
             {
                 var bookings = await _bookingRepository.GetAllAsync();
-                var bookingDtos = _mapper.Map<ICollection<BookingDisplayDTO>>(bookings);
-                return bookingDtos;
+                var bookingDTOs = _mapper.Map<ICollection<BookingDisplayDTO>>(bookings);
+                return bookingDTOs;
             }
             catch (Exception ex)
             {
@@ -39,8 +39,8 @@ namespace ISSHAR.Application.Services
             try
             {
                 var booking = await _bookingRepository.GetByIdAsync(id);
-                var bookingDto = _mapper.Map<BookingDisplayDTO>(booking);
-                return bookingDto;
+                var bookingDTO = _mapper.Map<BookingDisplayDTO>(booking);
+                return bookingDTO;
             }
             catch (Exception ex)
             {
@@ -49,11 +49,11 @@ namespace ISSHAR.Application.Services
             }
         }
 
-        public async Task AddAsync(BookingDTO bookingDto)
+        public async Task AddAsync(BookingDTO bookingDTO)
         {
             try
             {
-                var booking = _mapper.Map<Booking>(bookingDto);
+                var booking = _mapper.Map<Booking>(bookingDTO);
                 await _bookingRepository.AddAsync(booking);
             }
             catch (Exception ex)
@@ -63,16 +63,16 @@ namespace ISSHAR.Application.Services
             }
         }
 
-        public async Task<bool> UpdateAsync(int id, BookingDTO bookingDto)
+        public async Task<bool> UpdateAsync(int id, BookingDTO bookingDTO)
         {
             try
             {
                 var existingBooking = await _bookingRepository.GetByIdAsync(id);
-                if (existingBooking == null)
+                if (existingBooking is null)
                 {
                     return false;
                 }
-                _mapper.Map(bookingDto, existingBooking);
+                _mapper.Map(bookingDTO, existingBooking);
                 await _bookingRepository.UpdateAsync(existingBooking);
                 return true;
             }
@@ -88,7 +88,7 @@ namespace ISSHAR.Application.Services
             try
             {
                 var existingBooking = await _bookingRepository.GetByIdAsync(id);
-                if (existingBooking == null)
+                if (existingBooking is null)
                 {
                     return false;
                 }
@@ -101,5 +101,36 @@ namespace ISSHAR.Application.Services
                 throw;
             }
         }
+        public async Task<ICollection<BookingDisplayDTO>> GetByHallIdAsync(int hallId)
+        {
+            try
+            {
+                var bookings = await _bookingRepository.GetByHallIdAsync(hallId);
+                var bookingDTOs = _mapper.Map<ICollection<BookingDisplayDTO>>(bookings);
+                return bookingDTOs;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting bookings.");
+                throw;
+            }
+        }
+        public async Task<ICollection<BookingDisplayDTO>> GetByUserIdAsync(int userId)
+        {
+            try
+            {
+                var bookings = await _bookingRepository.GetByUserIdAsync(userId);
+                var bookingDTOs = _mapper.Map<ICollection<BookingDisplayDTO>>(bookings);
+                return bookingDTOs;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting bookings.");
+                throw;
+            }
+        }
+
+
+
     }
 }

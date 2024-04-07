@@ -7,6 +7,6 @@ namespace ISSHAR.Application.Survices
     {
         Task<ICollection<User>> GetAllUsersAsync();
         Task<User> GetUserByIdAsync(int id);
-        Task AddUserAsync(UserDTO userDto);
+        Task AddUserAsync(UserDTO userDTO);
     }
 }

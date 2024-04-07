@@ -27,7 +27,7 @@ namespace ISSHAR.API.Controllers
         public async Task<ActionResult<User>> GetUserById(int id)
         {
             var user = await _userService.GetUserByIdAsync(id);
-            if (user == null)
+            if (user is null)
             {
                 return NotFound();
             }

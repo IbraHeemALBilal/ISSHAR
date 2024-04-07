@@ -23,7 +23,7 @@ namespace ISSHAR.API.Controllers
         public async Task<ActionResult<AdvertisementDisplayDTO>> GetByIdAsync(int id)
         {
             var advertisement = await _advertisementService.GetByIdAsync(id);
-            if (advertisement == null)
+            if (advertisement is null)
                 return NotFound();
             return Ok(advertisement);
         }

@@ -3,9 +3,6 @@ using ISSHAR.Application.DTOs.HallDTOs;
 using ISSHAR.DAL.Entities;
 using ISSHAR.DAL.Repositories;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace ISSHAR.Application.Services
 {
@@ -52,11 +49,11 @@ namespace ISSHAR.Application.Services
             }
         }
 
-        public async Task AddAsync(HallDTO hallDto)
+        public async Task AddAsync(HallDTO hallDTO)
         {
             try
             {
-                var hall = _mapper.Map<Hall>(hallDto);
+                var hall = _mapper.Map<Hall>(hallDTO);
                 await _hallRepository.AddAsync(hall);
             }
             catch (Exception ex)
@@ -66,16 +63,16 @@ namespace ISSHAR.Application.Services
             }
         }
 
-        public async Task<bool> UpdateAsync(int id, HallDTO hallDto)
+        public async Task<bool> UpdateAsync(int id, HallDTO hallDTO)
         {
             try
             {
                 var existingHall = await _hallRepository.GetByIdAsync(id);
-                if (existingHall == null)
+                if (existingHall is null)
                 {
                     return false;
                 }
-                _mapper.Map(hallDto, existingHall);
+                _mapper.Map(hallDTO, existingHall);
                 await _hallRepository.UpdateAsync(existingHall);
                 return true;
             }
@@ -91,7 +88,7 @@ namespace ISSHAR.Application.Services
             try
             {
                 var existingHall = await _hallRepository.GetByIdAsync(id);
-                if (existingHall == null)
+                if (existingHall is null)
                 {
                     return false;
                 }
@@ -110,8 +107,8 @@ namespace ISSHAR.Application.Services
             try
             {
                 var halls = await _hallRepository.GetByOwnerIdAsync(ownerId);
-                var hallDtos = _mapper.Map<ICollection<HallDisplayDTO>>(halls);
-                return hallDtos;
+                var hallDTOs = _mapper.Map<ICollection<HallDisplayDTO>>(halls);
+                return hallDTOs;
             }
             catch (Exception ex)
             {
