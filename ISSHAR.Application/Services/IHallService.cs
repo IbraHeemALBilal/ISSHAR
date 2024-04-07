@@ -1,6 +1,6 @@
 ﻿using ISSHAR.Application.DTOs.HallDTOs;
 
-namespace ISSHAR.Application.Survices
+namespace ISSHAR.Application.Services
 {
     public interface IHallService
     {
@@ -9,7 +9,7 @@ namespace ISSHAR.Application.Survices
         Task AddAsync(HallDTO hallDto);
         Task<bool> UpdateAsync(int id, HallDTO hallDto);
         Task<bool> DeleteAsync(int id);
-        Task<ICollection<HallDisplayDTO>> GetByOwnerIdAsync();
+        Task<ICollection<HallDisplayDTO>> GetByOwnerIdAsync(int id);
 
     }
 }

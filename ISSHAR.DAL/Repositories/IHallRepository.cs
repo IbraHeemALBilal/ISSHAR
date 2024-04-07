@@ -10,6 +10,6 @@ namespace ISSHAR.DAL.Repositories
         Task UpdateAsync(Hall hall);
         Task DeleteAsync(Hall hall);
         Task SaveChangesAsync();
-        Task<ICollection<Hall>> GetHallsByOwnerIdAsync(int id);
+        Task<ICollection<Hall>> GetByOwnerIdAsync(int id);
     }
 }
