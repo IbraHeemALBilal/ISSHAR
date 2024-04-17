@@ -39,6 +39,17 @@ namespace ISSHAR.DAL.Repositories
         {
             await _context.SaveChangesAsync();
         }
+        public async Task<ICollection<Hall>> GetFilteredHallsAsync(string? city, decimal? minPrice, decimal? maxPrice)
+        {
+            return await _context.Halls.AsNoTracking()
+                .Where(h =>
+                    (city == null || h.City == city) &&
+                    (!minPrice.HasValue || h.PartyPrice >= minPrice) &&
+                    (!maxPrice.HasValue || h.PartyPrice <= maxPrice)
+                )
+                .ToListAsync();
+        }
+
 
     }
 }

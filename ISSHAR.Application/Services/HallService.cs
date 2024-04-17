@@ -116,5 +116,21 @@ namespace ISSHAR.Application.Services
                 throw;
             }
         }
+        public async Task<ICollection<HallDisplayDTO>> GetFilteredHallsAsync(HallFitlerBody filter)
+        {
+            try
+            {
+                var halls = await _hallRepository.GetFilteredHallsAsync(filter.City, filter.MinPrice, filter.MaxPrice);
+                var hallDTOs = _mapper.Map<ICollection<HallDisplayDTO>>(halls);
+                return hallDTOs;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting filtered halls.");
+                throw;
+            }
+        }
+
+
     }
 }

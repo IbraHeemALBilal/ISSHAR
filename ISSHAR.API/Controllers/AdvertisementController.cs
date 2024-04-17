@@ -31,7 +31,7 @@ namespace ISSHAR.API.Controllers
         public async Task<ActionResult> AddAsync(AdvertisementDTO advertisementDto)
         {
             await _advertisementService.AddAsync(advertisementDto);
-            return Ok("Advertisement added successfully.");
+            return Ok(advertisementDto);
         }
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateAsync(int id, AdvertisementDTO advertisementDto)

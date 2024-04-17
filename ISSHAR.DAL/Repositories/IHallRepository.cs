@@ -11,5 +11,7 @@ namespace ISSHAR.DAL.Repositories
         Task DeleteAsync(Hall hall);
         Task SaveChangesAsync();
         Task<ICollection<Hall>> GetByOwnerIdAsync(int id);
+        Task<ICollection<Hall>> GetFilteredHallsAsync(string? city, decimal? minPrice, decimal? maxPrice);
+
     }
 }

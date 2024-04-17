@@ -31,6 +31,17 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -43,6 +54,8 @@ app.UseRouting();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
+
+app.UseCors("AllowAllOrigins");
 
 app.UseEndpoints(endpoints =>
 {
