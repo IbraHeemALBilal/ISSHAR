@@ -63,6 +63,12 @@ namespace ISSHAR.API.Controllers
             var halls = await _hallService.GetByOwnerIdAsync(ownerId);
             return Ok(halls);
         }
+        [HttpGet("filtered")]
+        public async Task<ActionResult<ICollection<HallDisplayDTO>>> GetFilteredAsync(HallFitlerBody hallFitlerBody)
+        {
+            var halls = await _hallService.GetFilteredHallsAsync(hallFitlerBody);
+            return Ok(halls);
+        }
 
     }
 }
