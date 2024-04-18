@@ -19,7 +19,7 @@ namespace ISSHAR.DAL.Configurations
                 builder.Property(h => h.Capacity).IsRequired();
                 builder.Property(h => h.PartyPrice).IsRequired();
 
-            builder.HasOne(h => h.Owner)
+               builder.HasOne(h => h.Owner)
                        .WithMany(u => u.Halls)
                        .HasForeignKey(a => a.OwnerId)
                        .OnDelete(DeleteBehavior.Cascade);
