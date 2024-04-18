@@ -1,7 +1,7 @@
 ﻿using ISSHAR.Application.DTOs.UserDTOs;
 using ISSHAR.DAL.Entities;
 
-namespace ISSHAR.Application.Survices
+namespace ISSHAR.Application.Services
 {
     public interface IUserService
     {

@@ -1,6 +1,5 @@
 using ISSHAR.Application.Profiles;
 using ISSHAR.Application.Services;
-using ISSHAR.Application.Survices;
 using ISSHAR.DAL;
 using ISSHAR.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +13,11 @@ builder.Services.AddLogging();
 
 builder.Services.AddAutoMapper(typeof(UserProfile), typeof(AdvertisementProfile),typeof(HallProfile),typeof(HallImageProfile),typeof(BookingProfile));
 
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAdvertisementRepository, AdvertisementRepository>();
 
@@ -24,12 +28,8 @@ builder.Services.AddScoped<IHallRepository,HallRepository>();
 builder.Services.AddScoped<IHallService,HallService>();
 
 builder.Services.AddScoped<IBookingRepository,BookingRepository>();
-builder.Services.AddScoped<IBookingService,BookingService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
 
 builder.Services.AddCors(options =>
 {

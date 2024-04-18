@@ -1,5 +1,5 @@
 ﻿using ISSHAR.Application.DTOs.AdvertisementDTOs;
-using ISSHAR.Application.Survices;
+using ISSHAR.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ISSHAR.API.Controllers
@@ -28,15 +28,15 @@ namespace ISSHAR.API.Controllers
             return Ok(advertisement);
         }
         [HttpPost]
-        public async Task<ActionResult> AddAsync(AdvertisementDTO advertisementDto)
+        public async Task<ActionResult> AddAsync(AdvertisementDTO advertisementDTO)
         {
-            await _advertisementService.AddAsync(advertisementDto);
-            return Ok(advertisementDto);
+            var advertisement = await _advertisementService.AddAsync(advertisementDTO);
+            return Ok(advertisement);
         }
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateAsync(int id, AdvertisementDTO advertisementDto)
+        public async Task<ActionResult> UpdateAsync(int id, AdvertisementDTO advertisementDTO)
         {
-            var success = await _advertisementService.UpdateAsync(id, advertisementDto);
+            var success = await _advertisementService.UpdateAsync(id, advertisementDTO);
             if (!success)
                 return NotFound("Advertisement not found.");
 
