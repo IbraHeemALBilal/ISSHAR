@@ -1,5 +1,4 @@
 ﻿using ISSHAR.Application.DTOs.BookingDTOs;
-using ISSHAR.Application.DTOs.HallDTOs;
 using ISSHAR.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +10,7 @@ namespace ISSHAR.API.Controllers
     {
         private readonly IBookingService _bookingService;
         
-        public BookingController(BookingService bookingService)
+        public BookingController(IBookingService bookingService)
         {
             _bookingService = bookingService;
         }
@@ -58,13 +57,14 @@ namespace ISSHAR.API.Controllers
             return Ok("Booking deleted successfully.");
         }
 
-        [HttpGet("{hallId}")]
+        [HttpGet("hall/{hallId}")]
         public async Task<ActionResult<ICollection<BookingDisplayDTO>>> GetByHallIdAsync(int hallId)
         {
             var bookings = await _bookingService.GetByHallIdAsync(hallId);
             return Ok(bookings);
         }
-        [HttpGet("{userId}")]
+
+        [HttpGet("user/{userId}")]
         public async Task<ActionResult<ICollection<BookingDisplayDTO>>> GetByUserIdAsync(int userId)
         {
             var bookings = await _bookingService.GetByUserIdAsync(userId);

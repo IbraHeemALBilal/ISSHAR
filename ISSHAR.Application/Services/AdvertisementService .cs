@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using ISSHAR.Application.DTOs.AdvertisementDTOs;
-using ISSHAR.Application.Survices;
+using ISSHAR.Application.Services;
 using ISSHAR.DAL.Entities;
 using ISSHAR.DAL.Repositories;
 using Microsoft.Extensions.Logging;
@@ -50,12 +50,14 @@ namespace ISSHAR.Application.Services
             }
         }
 
-        public async Task AddAsync(AdvertisementDTO advertisementDTO)
+        public async Task<AdvertisementDisplayDTO> AddAsync(AdvertisementDTO advertisementDTO)
         {
             try
             {
                 var advertisement = _mapper.Map<Advertisement>(advertisementDTO);
                 await _advertisementRepository.AddAsync(advertisement);
+                var advertisementDisplayDTO = _mapper.Map<AdvertisementDisplayDTO>(advertisement);
+                return advertisementDisplayDTO;
             }
             catch (Exception ex)
             {

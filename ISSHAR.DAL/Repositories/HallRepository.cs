@@ -7,6 +7,10 @@ namespace ISSHAR.DAL.Repositories
     {
         private readonly AppDbContext _context;
 
+        public HallRepository(AppDbContext context)
+        {
+            _context = context;
+        }
         public async Task<ICollection<Hall>> GetAllAsync()
         {
             return await _context.Halls.AsNoTracking().ToListAsync();

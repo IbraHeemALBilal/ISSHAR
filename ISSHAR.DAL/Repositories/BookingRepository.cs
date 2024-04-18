@@ -6,6 +6,10 @@ namespace ISSHAR.DAL.Repositories
     public class BookingRepository : IBookingRepository
     {
         private readonly AppDbContext _context;
+        public BookingRepository(AppDbContext context)
+        {
+            _context = context;
+        }
         public async Task<ICollection<Booking>> GetAllAsync()
         {
             return await _context.Bookings.AsNoTracking().ToListAsync();

@@ -1,5 +1,5 @@
 ﻿using ISSHAR.Application.DTOs.UserDTOs;
-using ISSHAR.Application.Survices;
+using ISSHAR.Application.Services;
 using ISSHAR.DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 

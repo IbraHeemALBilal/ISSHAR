@@ -3,7 +3,7 @@ using ISSHAR.Application.DTOs.UserDTOs;
 using ISSHAR.DAL.Entities;
 using ISSHAR.DAL.Repositories;
 
-namespace ISSHAR.Application.Survices
+namespace ISSHAR.Application.Services
 {
     public class UserService : IUserService
     {
