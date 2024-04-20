@@ -33,8 +33,8 @@ namespace ISSHAR.API.Controllers
         [HttpPost]
         public async Task<ActionResult> AddAsync(HallDTO hallDTO)
         {
-            await _hallService.AddAsync(hallDTO);
-            return Ok("Hall added successfully.");
+            var hall = await _hallService.AddAsync(hallDTO);
+            return Ok(hall);
         }
 
         [HttpPut("{id}")]
@@ -57,14 +57,14 @@ namespace ISSHAR.API.Controllers
             return Ok("Hall deleted successfully.");
         }
 
-        [HttpGet("{ownerId}")]
+        [HttpGet("owner/{ownerId}")]
         public async Task<ActionResult<ICollection<HallDisplayDTO>>> GetByOwnerId(int ownerId)
         {
             var halls = await _hallService.GetByOwnerIdAsync(ownerId);
             return Ok(halls);
         }
         [HttpGet("filtered")]
-        public async Task<ActionResult<ICollection<HallDisplayDTO>>> GetFilteredAsync(HallFitlerBody hallFitlerBody)
+        public async Task<ActionResult<ICollection<HallDisplayDTO>>> GetFilteredAsync([FromQuery] HallFitlerBody hallFitlerBody)
         {
             var halls = await _hallService.GetFilteredHallsAsync(hallFitlerBody);
             return Ok(halls);

@@ -6,7 +6,7 @@ namespace ISSHAR.Application.Services
     {
         Task<ICollection<HallDisplayDTO>> GetAllAsync();
         Task<HallDisplayDTO> GetByIdAsync(int id);
-        Task AddAsync(HallDTO hallDTO);
+        Task<HallDisplayDTO> AddAsync(HallDTO hallDTO);
         Task<bool> UpdateAsync(int id, HallDTO hallDTO);
         Task<bool> DeleteAsync(int id);
         Task<ICollection<HallDisplayDTO>> GetByOwnerIdAsync(int id);

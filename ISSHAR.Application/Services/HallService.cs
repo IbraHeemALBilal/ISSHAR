@@ -49,12 +49,16 @@ namespace ISSHAR.Application.Services
             }
         }
 
-        public async Task AddAsync(HallDTO hallDTO)
+        public async Task <HallDisplayDTO> AddAsync(HallDTO hallDTO)
         {
             try
             {
                 var hall = _mapper.Map<Hall>(hallDTO);
                 await _hallRepository.AddAsync(hall);
+                var hallId = hall.HallId;
+                
+                var hallDisplayDTO = _mapper.Map<HallDisplayDTO>(hall);
+                return hallDisplayDTO;
             }
             catch (Exception ex)
             {
