@@ -29,6 +29,8 @@ namespace ISSHAR.Application.DTOs.HallDTOs
         [Range(0, double.MaxValue, ErrorMessage = "Party Price must be a positive number")]
         public decimal PartyPrice { get; set; }
 
+        [MinLength(2, ErrorMessage = "At least 2 images are required.")]
+        [MaxLength(5, ErrorMessage = "At most 5 images are allowed.")]
         public ICollection<HallImageDTO> HallImages { get; set; }
     }
 }
