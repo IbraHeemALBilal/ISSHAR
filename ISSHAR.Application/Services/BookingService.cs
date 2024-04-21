@@ -129,7 +129,19 @@ namespace ISSHAR.Application.Services
                 throw;
             }
         }
-
+        public async Task<bool> CheckAvailabilityAsync(int hallId, DateTime startDate, DateTime endDate)
+        {
+            try
+            {
+                var overlappingBookings = await _bookingRepository.GetOverlappingBookingsAsync(hallId, startDate, endDate);
+                return overlappingBookings.Count == 0;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while checking availability for hall ID: {HallId}", hallId);
+                throw;
+            }
+        }
 
 
     }

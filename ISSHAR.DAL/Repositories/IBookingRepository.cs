@@ -11,6 +11,7 @@ namespace ISSHAR.DAL.Repositories
         Task DeleteAsync(Booking booking);
         Task<ICollection<Booking>> GetByHallIdAsync(int hallId);
         Task<ICollection<Booking>> GetByUserIdAsync(int userId);
+        Task<ICollection<Booking>> GetOverlappingBookingsAsync(int hallId, DateTime startDate, DateTime endDate);
         Task SaveChangesAsync();
     }
 }

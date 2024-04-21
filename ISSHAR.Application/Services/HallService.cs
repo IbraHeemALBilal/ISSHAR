@@ -11,12 +11,14 @@ namespace ISSHAR.Application.Services
         private readonly IHallRepository _hallRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<IHallService> _logger;
+        private readonly IImageService _cloudinary;
 
-        public HallService(IHallRepository hallRepository, IMapper mapper, ILogger<IHallService> logger)
+        public HallService(IHallRepository hallRepository, IMapper mapper, ILogger<IHallService> logger,IImageService cloudinary)
         {
             _hallRepository = hallRepository;
             _mapper = mapper;
             _logger = logger;
+            _cloudinary = cloudinary;
         }
 
         public async Task<ICollection<HallDisplayDTO>> GetAllAsync()
@@ -54,9 +56,14 @@ namespace ISSHAR.Application.Services
             try
             {
                 var hall = _mapper.Map<Hall>(hallDTO);
-                await _hallRepository.AddAsync(hall);
-                var hallId = hall.HallId;
-                
+                var hallImages = new List<HallImage>();
+                foreach (var file in hallDTO.ImagesAsFiles)
+                {
+                    hallImages.Add(new HallImage { ImageUrl = await _cloudinary.UploadImageAsync(file)});
+                }
+                hall.HallImages= hallImages;
+                hall.Logo = await _cloudinary.UploadImageAsync(hallDTO.LogoFile);
+                await _hallRepository.AddAsync(hall);                
                 var hallDisplayDTO = _mapper.Map<HallDisplayDTO>(hall);
                 return hallDisplayDTO;
             }

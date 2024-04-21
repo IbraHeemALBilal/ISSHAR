@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace ISSHAR.Application.DTOs.AdvertisementDTOs
 {
@@ -13,10 +14,7 @@ namespace ISSHAR.Application.DTOs.AdvertisementDTOs
 
         [Required(ErrorMessage = "Description is required")]
         public string Description { get; set; }
-
-        [Required(ErrorMessage = "ImageUrl is required")]
-        public string ImageUrl { get; set; }
-
+        [Required(ErrorMessage = "Phone Number is required")]
         [RegularExpression(@"^05\d{8}$", ErrorMessage = "Invalid PhoneNumber format")]
         public string PhoneNumber { get; set; }
 
@@ -27,5 +25,7 @@ namespace ISSHAR.Application.DTOs.AdvertisementDTOs
         [Required(ErrorMessage = "ServiceType is required")]
         [StringLength(50, ErrorMessage = "ServiceType must be at most 50 characters long")]
         public string ServiceType { get; set; }
+        public IFormFile ImageFile { get; set; }
+
     }
 }

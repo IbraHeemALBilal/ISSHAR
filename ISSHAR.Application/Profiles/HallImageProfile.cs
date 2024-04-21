@@ -8,7 +8,6 @@ namespace ISSHAR.Application.Profiles
     {
         public HallImageProfile() 
         {
-            CreateMap<HallImageDTO, HallImage>();
             CreateMap<HallImage, HallImageDisplayDTO>();
         }
     }

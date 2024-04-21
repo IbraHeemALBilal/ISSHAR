@@ -31,7 +31,7 @@ namespace ISSHAR.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddAsync(HallDTO hallDTO)
+        public async Task<ActionResult> AddAsync([FromForm] HallDTO hallDTO)
         {
             var hall = await _hallService.AddAsync(hallDTO);
             return Ok(hall);

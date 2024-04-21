@@ -12,12 +12,14 @@ namespace ISSHAR.Application.Services
         private readonly IAdvertisementRepository _advertisementRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<IAdvertisementService> _logger;
+        private readonly IImageService _cloudinary;
 
-        public AdvertisementService(IAdvertisementRepository advertisementRepository, IMapper mapper, ILogger<IAdvertisementService> logger)
+        public AdvertisementService(IAdvertisementRepository advertisementRepository, IMapper mapper, ILogger<IAdvertisementService> logger, IImageService cloudinary)
         {
             _advertisementRepository = advertisementRepository;
             _mapper = mapper;
             _logger = logger;
+            _cloudinary = cloudinary;
         }
 
         public async Task<ICollection<AdvertisementDisplayDTO>> GetAllAsync()
@@ -55,6 +57,7 @@ namespace ISSHAR.Application.Services
             try
             {
                 var advertisement = _mapper.Map<Advertisement>(advertisementDTO);
+                advertisement.ImageUrl = await _cloudinary.UploadImageAsync(advertisementDTO.ImageFile);
                 await _advertisementRepository.AddAsync(advertisement);
                 var advertisementDisplayDTO = _mapper.Map<AdvertisementDisplayDTO>(advertisement);
                 return advertisementDisplayDTO;

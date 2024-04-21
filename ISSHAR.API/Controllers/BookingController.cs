@@ -70,6 +70,12 @@ namespace ISSHAR.API.Controllers
             var bookings = await _bookingService.GetByUserIdAsync(userId);
             return Ok(bookings);
         }
+        [HttpPost("hall/{hallId}/availability")]
+        public async Task<ActionResult<bool>> CheckHallAvailabilityAsync(int hallId, [FromBody] DateRangeDTO dateRange)
+        {
+            var isAvailable = await _bookingService.CheckAvailabilityAsync(hallId, dateRange.StartDate, dateRange.EndDate);
+            return Ok(isAvailable);
+        }
 
     }
 }
