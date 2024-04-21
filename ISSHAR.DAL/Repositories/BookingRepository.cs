@@ -13,7 +13,6 @@ namespace ISSHAR.DAL.Repositories
         public async Task<ICollection<Booking>> GetAllAsync()
         {
             return await _context.Bookings.AsNoTracking().ToListAsync();
-
         }
         public async Task<Booking> GetByIdAsync(int id)
         {
@@ -45,6 +44,14 @@ namespace ISSHAR.DAL.Repositories
             return await _context.Bookings.AsNoTracking().Where(b => b.UserId == userId).ToListAsync();
 
         }
+        public async Task<ICollection<Booking>> GetOverlappingBookingsAsync(int hallId, DateTime startDate, DateTime endDate)
+        {
+            return await _context.Bookings
+                .Where(b => b.HallId == hallId &&
+                            (b.StartDate <= endDate && b.EndDate >= startDate))
+                .ToListAsync();
+        }
+
 
 
         public async Task SaveChangesAsync()

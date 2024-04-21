@@ -11,6 +11,7 @@ namespace ISSHAR.Application.Services
         Task<bool> DeleteAsync(int id);
         Task<ICollection<BookingDisplayDTO>> GetByHallIdAsync(int hallId);
         Task<ICollection<BookingDisplayDTO>> GetByUserIdAsync(int userId);
+        Task<bool> CheckAvailabilityAsync(int hallId, DateTime startDate, DateTime endDate);
 
 
     }

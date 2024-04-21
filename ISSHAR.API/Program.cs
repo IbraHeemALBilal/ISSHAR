@@ -1,3 +1,4 @@
+using CloudinaryDotNet;
 using ISSHAR.Application.Profiles;
 using ISSHAR.Application.Services;
 using ISSHAR.DAL;
@@ -13,10 +14,22 @@ builder.Services.AddLogging();
 
 builder.Services.AddAutoMapper(typeof(UserProfile), typeof(AdvertisementProfile),typeof(HallProfile),typeof(HallImageProfile),typeof(BookingProfile));
 
+builder.Services.AddSingleton(_ =>
+{
+    var cloudinaryAccount = new Account(
+        builder.Configuration["Cloudinary:CloudName"],
+        builder.Configuration["Cloudinary:ApiKey"],
+        builder.Configuration["Cloudinary:ApiSecret"]);
+
+    return new Cloudinary(cloudinaryAccount);
+});
+
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddScoped<IImageService,CloudinaryImageService>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAdvertisementRepository, AdvertisementRepository>();

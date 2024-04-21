@@ -4,14 +4,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ISSHAR.API.Controllers
 {
-    [Route("ishhar/advertisements")]
+    [Route("api/advertisements")]
     [ApiController]
     public class AdvertisementController : ControllerBase
     {
-        private readonly IAdvertisementService _advertisementService; 
+        private readonly IAdvertisementService _advertisementService;
+
         public AdvertisementController(IAdvertisementService advertisementService)
         {
-            _advertisementService= advertisementService;
+            _advertisementService = advertisementService;
         }
         [HttpGet]
         public async Task<ActionResult<ICollection<AdvertisementDisplayDTO>>> GetAllAsync()
@@ -28,9 +29,10 @@ namespace ISSHAR.API.Controllers
             return Ok(advertisement);
         }
         [HttpPost]
-        public async Task<ActionResult> AddAsync(AdvertisementDTO advertisementDTO)
+        public async Task<ActionResult<AdvertisementDisplayDTO>> AddAsync([FromForm] AdvertisementDTO advertisementDTO)
         {
             var advertisement = await _advertisementService.AddAsync(advertisementDTO);
+
             return Ok(advertisement);
         }
         [HttpPut("{id}")]
@@ -65,6 +67,5 @@ namespace ISSHAR.API.Controllers
             var advertisements = await _advertisementService.GetFilteredAdsAsync(filterBody);
             return Ok(advertisements);
         }
-
     }
 }
