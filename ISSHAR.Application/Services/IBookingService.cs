@@ -6,7 +6,7 @@ namespace ISSHAR.Application.Services
     {
         Task<ICollection<BookingDisplayDTO>> GetAllAsync();
         Task<BookingDisplayDTO> GetByIdAsync(int id);
-        Task AddAsync(BookingDTO bookingDTO);
+        Task<bool> AddAsync(BookingDTO bookingDTO);
         Task<bool> UpdateAsync(int id, BookingDTO bookingDTO);
         Task<bool> DeleteAsync(int id);
         Task<ICollection<BookingDisplayDTO>> GetByHallIdAsync(int hallId);

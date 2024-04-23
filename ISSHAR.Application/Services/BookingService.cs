@@ -49,12 +49,12 @@ namespace ISSHAR.Application.Services
             }
         }
 
-        public async Task AddAsync(BookingDTO bookingDTO)
+        public async Task<bool> AddAsync(BookingDTO bookingDTO)
         {
             try
             {
                 var booking = _mapper.Map<Booking>(bookingDTO);
-                await _bookingRepository.AddAsync(booking);
+                return await _bookingRepository.AddAsync(booking);
             }
             catch (Exception ex)
             {
