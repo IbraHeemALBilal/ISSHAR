@@ -34,8 +34,10 @@ namespace ISSHAR.API.Controllers
         [HttpPost]
         public async Task<ActionResult> AddAsync(BookingDTO bookingDTO)
         {
-            await _bookingService.AddAsync(bookingDTO);
-            return Ok("Booking added successfully.");
+            var success = await _bookingService.AddAsync(bookingDTO);
+            if (success)
+                return Ok("Booking added successfully.");
+            else return Conflict("Booking conflicts with existing booking.");
         }
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateAsync(int id, BookingDTO bookingDTO)
@@ -73,8 +75,12 @@ namespace ISSHAR.API.Controllers
         [HttpPost("hall/{hallId}/availability")]
         public async Task<ActionResult<bool>> CheckHallAvailabilityAsync(int hallId, [FromBody] DateRangeDTO dateRange)
         {
-            var isAvailable = await _bookingService.CheckAvailabilityAsync(hallId, dateRange.StartDate, dateRange.EndDate);
-            return Ok(isAvailable);
+            var hasConflict = await _bookingService.CheckConflictAsync(hallId, dateRange.StartDate, dateRange.EndDate);
+            bool result;
+            if (hasConflict)
+                result = false;
+            else result = true;
+            return Ok(result);
         }
 
     }

@@ -19,19 +19,11 @@ namespace ISSHAR.DAL.Repositories
             return await _context.Bookings.AsNoTracking().FirstOrDefaultAsync(a => a.BookingId == id);
 
         }
-        public async Task<bool> AddAsync(Booking booking)
+        public async Task AddAsync(Booking booking)
         {
-            bool hasConflict = await CheckForConflictsAsync(booking);
-
-            if (hasConflict)
-              throw new InvalidOperationException("Booking conflicts with existing booking(s).");
-
             await _context.Bookings.AddAsync(booking);
             await SaveChangesAsync();
-
-            return true;
         }
-
         public async Task DeleteAsync(Booking booking)
         {
             _context.Bookings.Remove(booking);
@@ -52,21 +44,13 @@ namespace ISSHAR.DAL.Repositories
             return await _context.Bookings.AsNoTracking().Where(b => b.UserId == userId).ToListAsync();
 
         }
-        public async Task<ICollection<Booking>> GetOverlappingBookingsAsync(int hallId, DateTime startDate, DateTime endDate)
+        public async Task<bool> HasBookingConflictAsync(int hallId, DateTime startDate, DateTime endDate)
         {
-            return await _context.Bookings
-                .Where(b => b.HallId == hallId &&
-                            (b.StartDate <= endDate && b.EndDate >= startDate))
-                .ToListAsync();
-        }
-        private async Task<bool> CheckForConflictsAsync(Booking newBooking)
-        {
-            var existingConflictingBookings = await _context.Bookings
-                .Where(b =>
-                    !(b.EndDate <= newBooking.StartDate || b.StartDate >= newBooking.EndDate))
-                .ToListAsync();
+            var isConflict = await _context.Bookings
+                .AnyAsync(b => b.HallId == hallId &&
+                               !(b.EndDate <= startDate || b.StartDate >= endDate));
 
-            return existingConflictingBookings.Any();
+            return isConflict;
         }
         public async Task SaveChangesAsync()
         {

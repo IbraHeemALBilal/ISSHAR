@@ -33,7 +33,6 @@ namespace ISSHAR.Application.Services
                 throw;
             }
         }
-
         public async Task<BookingDisplayDTO> GetByIdAsync(int id)
         {
             try
@@ -48,13 +47,18 @@ namespace ISSHAR.Application.Services
                 throw;
             }
         }
-
         public async Task<bool> AddAsync(BookingDTO bookingDTO)
         {
             try
             {
                 var booking = _mapper.Map<Booking>(bookingDTO);
-                return await _bookingRepository.AddAsync(booking);
+                var hasConflect = await _bookingRepository.HasBookingConflictAsync(bookingDTO.HallId, bookingDTO.StartDate, bookingDTO.EndDate);
+                if (!hasConflect)
+                {
+                    await _bookingRepository.AddAsync(booking);
+                    return true;
+                }
+                else return false;
             }
             catch (Exception ex)
             {
@@ -62,7 +66,6 @@ namespace ISSHAR.Application.Services
                 throw;
             }
         }
-
         public async Task<bool> UpdateAsync(int id, BookingDTO bookingDTO)
         {
             try
@@ -82,7 +85,6 @@ namespace ISSHAR.Application.Services
                 throw;
             }
         }
-
         public async Task<bool> DeleteAsync(int id)
         {
             try
@@ -129,12 +131,12 @@ namespace ISSHAR.Application.Services
                 throw;
             }
         }
-        public async Task<bool> CheckAvailabilityAsync(int hallId, DateTime startDate, DateTime endDate)
+        public async Task<bool> CheckConflictAsync(int hallId, DateTime startDate, DateTime endDate)
         {
             try
             {
-                var overlappingBookings = await _bookingRepository.GetOverlappingBookingsAsync(hallId, startDate, endDate);
-                return overlappingBookings.Count == 0;
+                var hasConflict = await _bookingRepository.HasBookingConflictAsync(hallId, startDate, endDate);
+                return hasConflict;
             }
             catch (Exception ex)
             {
@@ -142,7 +144,5 @@ namespace ISSHAR.Application.Services
                 throw;
             }
         }
-
-
     }
 }
