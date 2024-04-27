@@ -10,6 +10,9 @@ namespace ISSHAR.DAL
         public DbSet<Hall> Halls { get; set; }
         public DbSet<HallImage> HallImages { get; set; }
         public DbSet<Booking> Bookings { get; set; }
+        public DbSet<CardTemplet> CardTemplets { get; set; }
+        public DbSet<Card> Cards { get; set; }
+        public DbSet<Invite> invites { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {

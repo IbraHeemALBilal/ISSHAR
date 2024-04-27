@@ -18,5 +18,8 @@
         public ICollection<Advertisement> Advertisements { set; get;}
         public ICollection<Hall> Halls { set; get; }
         public ICollection<Booking> Bookings { set; get; }
+        public ICollection<Card> Cards { get; set; }
+        public ICollection<Invite> SendedInvites{ get; set; }
+        public ICollection<Invite> ReceivedInvites { get; set; }
     }
 }
