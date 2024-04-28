@@ -1,5 +1,4 @@
-﻿
-using ISSHAR.DAL.Entities;
+﻿using ISSHAR.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace ISSHAR.DAL.Repositories
@@ -11,17 +10,6 @@ namespace ISSHAR.DAL.Repositories
         {
             _context = context;
         }
-        public async Task AddAsync(Card card)
-        {
-            await _context.Cards.AddAsync(card);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(Card card)
-        {
-             _context.Cards.Remove(card);
-            await _context.SaveChangesAsync();
-        }
 
         public async Task<ICollection<Card>> GetAllAsync()
         {
@@ -31,6 +19,18 @@ namespace ISSHAR.DAL.Repositories
         public async Task<Card> GetByIdAsync(int id)
         {
             return await _context.Cards.AsNoTracking().FirstOrDefaultAsync(a => a.CardId == id);
+        }
+
+        public async Task AddAsync(Card card)
+        {
+            await _context.Cards.AddAsync(card);
+            await SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(Card card)
+        {
+             _context.Cards.Remove(card);
+            await SaveChangesAsync();
         }
 
         public async Task SaveChangesAsync()
