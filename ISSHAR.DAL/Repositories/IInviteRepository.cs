@@ -4,10 +4,10 @@ namespace ISSHAR.DAL.Repositories
 {
     public interface IInviteRepository
     {
+        Task<ICollection<Invite>> GetByReceiverIdAsync(int receiverId);
         Task<Invite> GetByIdAsync(int id);
-        Task<ICollection<Hall>> GetByReceiverIdAsync(int receiverId);
         Task AddAsync(Invite invite);
-        Task<bool>CheckIfInvitedBeforAsnyc(int senderId , int receiverId , int cardId);
+        Task<bool>CheckIfInvitedBeforeAsnyc(int senderId , int receiverId , int cardId);
         Task SaveChangesAsync();
     }
 }
