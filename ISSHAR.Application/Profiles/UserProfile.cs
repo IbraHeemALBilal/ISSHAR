@@ -9,7 +9,9 @@ namespace ISSHAR.Application.Profiles
         public UserProfile()
         {
             CreateMap<User, UserDTO>().ReverseMap();
-        }
+            CreateMap<User, UserDisplayDTO>().ReverseMap();
+            CreateMap<User, SenderDTO>().ReverseMap();
 
+        }
     }
 }

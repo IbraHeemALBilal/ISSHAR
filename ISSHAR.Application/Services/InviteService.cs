@@ -12,6 +12,13 @@ namespace ISSHAR.Application.Services
         private readonly IMapper _mapper;
         private readonly ILogger<IInviteService> _logger;
 
+        public InviteService(IInviteRepository inviteRepository, IMapper mapper, ILogger<IInviteService> logger)
+        {
+            _inviteRepository = inviteRepository;
+            _mapper = mapper;
+            _logger = logger;
+        }
+
         public async Task<InviteDisplayDTO> GetByIdAsync(int id)
         {
             try
