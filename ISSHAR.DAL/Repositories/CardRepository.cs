@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ISSHAR.DAL.Repositories
 {
-    class CardRepository : ICardRepository
+    public class CardRepository : ICardRepository
     {
         private readonly AppDbContext _context;
         public CardRepository(AppDbContext context)
@@ -11,9 +11,9 @@ namespace ISSHAR.DAL.Repositories
             _context = context;
         }
 
-        public async Task<ICollection<Card>> GetAllAsync()
+        public async Task<ICollection<Card>> GetByCreaterIdAsync(int id)
         {
-            return await _context.Cards.AsNoTracking().ToListAsync();
+            return await _context.Cards.AsNoTracking().Where(c=>c.UserId==id).ToListAsync();
         }
 
         public async Task<Card> GetByIdAsync(int id)

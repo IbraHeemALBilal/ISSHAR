@@ -6,7 +6,7 @@ namespace ISSHAR.Application.Profiles
 {
     public class CardTempletProfile : Profile
     {
-        CardTempletProfile() 
+        public CardTempletProfile() 
         {
             CreateMap<CardTemplet, CardTempletDisplayDTO>().ReverseMap();
             CreateMap<CardTemplet, CardTempletDTO>().ReverseMap();

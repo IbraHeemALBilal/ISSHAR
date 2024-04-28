@@ -12,7 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddLogging();
 
-builder.Services.AddAutoMapper(typeof(UserProfile), typeof(AdvertisementProfile),typeof(HallProfile),typeof(HallImageProfile),typeof(BookingProfile));
+builder.Services.AddAutoMapper(typeof(UserProfile).Assembly);
 
 builder.Services.AddSingleton(_ =>
 {
@@ -29,20 +29,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddScoped<IImageService,CloudinaryImageService>();
-
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IAdvertisementRepository, AdvertisementRepository>();
-
-builder.Services.AddScoped<IUserService,UserService>();
-builder.Services.AddScoped<IAdvertisementService,AdvertisementService>();
-
-builder.Services.AddScoped<IHallRepository,HallRepository>();
-builder.Services.AddScoped<IHallService,HallService>();
-
-builder.Services.AddScoped<IBookingRepository,BookingRepository>();
-builder.Services.AddScoped<IBookingService, BookingService>();
-
+InjectServicesAndRepositories(builder);
 
 builder.Services.AddCors(options =>
 {
@@ -76,3 +63,29 @@ app.UseEndpoints(endpoints =>
 });
 
 app.Run();
+
+static void InjectServicesAndRepositories(WebApplicationBuilder builder)
+{
+    builder.Services.AddScoped<IImageService, CloudinaryImageService>();
+
+    builder.Services.AddScoped<IUserRepository, UserRepository>();
+    builder.Services.AddScoped<IAdvertisementRepository, AdvertisementRepository>();
+
+    builder.Services.AddScoped<IUserService, UserService>();
+    builder.Services.AddScoped<IAdvertisementService, AdvertisementService>();
+
+    builder.Services.AddScoped<IHallRepository, HallRepository>();
+    builder.Services.AddScoped<IHallService, HallService>();
+
+    builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+    builder.Services.AddScoped<IBookingService, BookingService>();
+
+    builder.Services.AddScoped<ICardTempleteRepository, CardTempleteRepository>();
+    builder.Services.AddScoped<ICardTempleteService, CardTempleteService>();
+
+    builder.Services.AddScoped<ICardRepository, CardRepository>();
+    builder.Services.AddScoped<ICardService, CardService>();
+
+    builder.Services.AddScoped<IInviteRepository, InviteRepository>();
+    builder.Services.AddScoped<IInviteService, InviteService>();
+}

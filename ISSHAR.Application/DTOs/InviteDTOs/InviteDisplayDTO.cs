@@ -1,4 +1,5 @@
-﻿using ISSHAR.DAL.Entities;
+﻿using ISSHAR.Application.DTOs.CardDTOs;
+using ISSHAR.Application.DTOs.UserDTOs;
 
 namespace ISSHAR.Application.DTOs.InviteDTOs
 {
@@ -9,7 +10,7 @@ namespace ISSHAR.Application.DTOs.InviteDTOs
         public int ReceiverId { get; set; }
         public int CardId { get; set; }
 
-        public User Sender { get; set; }
-        public Card Card { get; set; }
+        public SenderDTO Sender { get; set; }
+        public CardDisplayDTO Card { get; set; }
     }
 }

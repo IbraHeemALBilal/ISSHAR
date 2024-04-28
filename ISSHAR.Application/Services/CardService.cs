@@ -19,11 +19,11 @@ namespace ISSHAR.Application.Services
             _logger = logger;
         }
 
-        public async Task<ICollection<CardDisplayDTO>> GetAllAsync()
+        public async Task<ICollection<CardDisplayDTO>> GetByCreaterId(int id)
         {
             try
             {
-                var cards = await _cardRepository.GetAllAsync();
+                var cards = await _cardRepository.GetByCreaterIdAsync(id);
                 var cardDTOs = _mapper.Map<ICollection<CardDisplayDTO>>(cards);
                 return cardDTOs;
             }

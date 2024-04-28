@@ -4,7 +4,7 @@ using ISSHAR.DAL.Entities;
 
 namespace ISSHAR.Application.Profiles
 {
-    internal class CardProfile : Profile
+    public class CardProfile : Profile
     {
         public CardProfile() 
         {
