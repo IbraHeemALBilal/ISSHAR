@@ -1,5 +1,6 @@
 ﻿using ISSHAR.Application.DTOs.HallDTOs;
 using ISSHAR.Application.Services;
+using ISSHAR.DAL.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ISSHAR.API.Controllers
@@ -17,7 +18,13 @@ namespace ISSHAR.API.Controllers
         [HttpGet]
         public async Task<ActionResult<ICollection<HallDisplayDTO>>> GetAllAsync()
         {
-            var halls = await _hallService.GetAllAsync();
+            var halls = await _hallService.GetHallsByStatusAsync(Status.Approved);
+            return Ok(halls);
+        }
+        [HttpGet("pending")]
+        public async Task<ActionResult<ICollection<HallDisplayDTO>>> GetPendingAsync()
+        {
+            var halls = await _hallService.GetHallsByStatusAsync(Status.Pending);
             return Ok(halls);
         }
 
@@ -52,7 +59,7 @@ namespace ISSHAR.API.Controllers
         {
             var success = await _hallService.DeleteAsync(id);
             if (!success)
-                return NotFound("Hall not found.");
+                return NotFound("Hall not found or have future bookings.");
 
             return Ok("Hall deleted successfully.");
         }
@@ -69,6 +76,14 @@ namespace ISSHAR.API.Controllers
             var halls = await _hallService.GetFilteredHallsAsync(hallFitlerBody);
             return Ok(halls);
         }
+        [HttpPut("{id}/status")]
+        public async Task<ActionResult> ChangeStatusAsync(int id, [FromQuery] string newStatus)
+        {
+            var success = await _hallService.ChangeStatusAsync(id, newStatus);
+            if (!success)
+                return NotFound("Hall not found or new status not allowed.");
 
+            return Ok("Hall status changed successfully.");
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace ISSHAR.DAL.Entities
+﻿using ISSHAR.DAL.Enums;
+
+namespace ISSHAR.DAL.Entities
 {
     public class Hall
     {
@@ -12,10 +14,9 @@
         public int OwnerId { set; get; }
         public decimal PartyPrice { set; get; }
         public User Owner { get; set; }
+        public Status Status { get; set; }
 
         public ICollection<HallImage> HallImages { set; get; }
         public ICollection<Booking> Bookings { set; get; }
-
-
     }
 }

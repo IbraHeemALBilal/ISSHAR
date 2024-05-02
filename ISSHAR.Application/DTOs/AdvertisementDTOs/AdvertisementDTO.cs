@@ -25,7 +25,7 @@ namespace ISSHAR.Application.DTOs.AdvertisementDTOs
         [Required(ErrorMessage = "ServiceType is required")]
         [StringLength(50, ErrorMessage = "ServiceType must be at most 50 characters long")]
         public string ServiceType { get; set; }
-        public IFormFile ImageFile { get; set; }
+        public IFormFile? ImageFile { get; set; }
 
     }
 }

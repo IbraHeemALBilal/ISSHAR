@@ -17,6 +17,7 @@ namespace ISSHAR.DAL.Configurations
             builder.Property(a => a.DatePosted).IsRequired().HasDefaultValueSql("GETDATE()");
             builder.Property(a => a.City).HasMaxLength(20);
             builder.Property(a => a.ServiceType).IsRequired().HasMaxLength(25);
+            builder.Property(a => a.Status).IsRequired().HasMaxLength(20);
 
             builder.HasOne(a => a.User)
                    .WithMany(u => u.Advertisements)

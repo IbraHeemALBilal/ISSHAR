@@ -15,12 +15,12 @@ namespace ISSHAR.DAL.Repositories
 
         public async Task<ICollection<User>> GetAllAsync()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users.AsNoTracking().ToListAsync();
         }
 
         public async Task<User> GetByIdAsync(int id)
         {
-            return await _context.Users.FindAsync(id);
+            return await _context.Users.AsNoTracking().FirstOrDefaultAsync(u=>u.UserId== id);
         }
 
         public async Task AddAsync(User user)
@@ -29,6 +29,12 @@ namespace ISSHAR.DAL.Repositories
             await _context.Users.AddAsync(user);
             await SaveChangesAsync();
         }
+        public async Task<ICollection<User>> GetReceiversOfCartAsync(int cartId)
+        {
+            return await _context.Users.AsNoTracking().Where(u=>u.ReceivedInvites.Any(r=>r.CardId== cartId)).ToListAsync();
+        }
+
+
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();

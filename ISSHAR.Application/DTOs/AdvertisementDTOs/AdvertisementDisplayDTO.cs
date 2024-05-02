@@ -11,5 +11,6 @@
         public int UserId { get; set; } 
         public DateTime DatePosted { get; set; }
         public string ServiceType { get; set; }
+        public string Status { get; set; }
     }
 }

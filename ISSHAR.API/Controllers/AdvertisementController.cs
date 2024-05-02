@@ -1,5 +1,6 @@
 ﻿using ISSHAR.Application.DTOs.AdvertisementDTOs;
 using ISSHAR.Application.Services;
+using ISSHAR.DAL.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ISSHAR.API.Controllers
@@ -17,7 +18,13 @@ namespace ISSHAR.API.Controllers
         [HttpGet]
         public async Task<ActionResult<ICollection<AdvertisementDisplayDTO>>> GetAllAsync()
         {
-            var advertisements = await _advertisementService.GetAllAsync();
+            var advertisements = await _advertisementService.GetAdsByStatusAsync(Status.Approved);
+            return Ok(advertisements);
+        }
+        [HttpGet("pending")]
+        public async Task<ActionResult<ICollection<AdvertisementDisplayDTO>>> GetPendingAsync()
+        {
+            var advertisements = await _advertisementService.GetAdsByStatusAsync(Status.Pending);
             return Ok(advertisements);
         }
         [HttpGet("{id}")]
@@ -34,15 +41,6 @@ namespace ISSHAR.API.Controllers
             var advertisement = await _advertisementService.AddAsync(advertisementDTO);
 
             return Ok(advertisement);
-        }
-        [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateAsync(int id, AdvertisementDTO advertisementDTO)
-        {
-            var success = await _advertisementService.UpdateAsync(id, advertisementDTO);
-            if (!success)
-                return NotFound("Advertisement not found.");
-
-            return Ok("Advertisement updated successfully.");
         }
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAsync(int id)
@@ -67,5 +65,15 @@ namespace ISSHAR.API.Controllers
             var advertisements = await _advertisementService.GetFilteredAdsAsync(filterBody);
             return Ok(advertisements);
         }
+        [HttpPut("{id}/status")]
+        public async Task<ActionResult> ChangeStatusAsync(int id, [FromQuery] string newStatus)
+        {
+            var success = await _advertisementService.ChangeStatusAsync(id, newStatus);
+            if (!success)
+                return NotFound("Advertisement not found or new status not allowed.");
+
+            return Ok("Advertisement status changed successfully.");
+        }
+
     }
 }

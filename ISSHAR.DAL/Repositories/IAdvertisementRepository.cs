@@ -1,10 +1,11 @@
 ﻿using ISSHAR.DAL.Entities;
+using ISSHAR.DAL.Enums;
 
 namespace ISSHAR.DAL.Repositories
 {
     public interface IAdvertisementRepository
     {
-        Task<ICollection<Advertisement>> GetAllAsync();
+        Task<ICollection<Advertisement>> GetByStatusAsync(Status status);
         Task<Advertisement> GetByIdAsync(int id);
         Task AddAsync(Advertisement advertisement);
         Task UpdateAsync(Advertisement advertisement);

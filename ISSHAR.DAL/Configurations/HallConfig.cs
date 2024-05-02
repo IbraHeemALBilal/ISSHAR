@@ -18,8 +18,9 @@ namespace ISSHAR.DAL.Configurations
                 builder.Property(h => h.Logo).IsRequired().HasMaxLength(255);
                 builder.Property(h => h.Capacity).IsRequired();
                 builder.Property(h => h.PartyPrice).IsRequired();
+                builder.Property(h=> h.Status).IsRequired().HasMaxLength(20);
 
-               builder.HasOne(h => h.Owner)
+            builder.HasOne(h => h.Owner)
                        .WithMany(u => u.Halls)
                        .HasForeignKey(a => a.OwnerId)
                        .OnDelete(DeleteBehavior.Cascade);

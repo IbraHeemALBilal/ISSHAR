@@ -1,6 +1,6 @@
 ﻿namespace ISSHAR.Application.DTOs.UserDTOs
 {
-    public class SenderDTO
+    public class UserInfoDTO
     {
         public int UserId { set; get; }
         public string FirstName { get; set; }
