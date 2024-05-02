@@ -8,6 +8,7 @@ namespace ISSHAR.DAL.Repositories
         Task<User> GetByIdAsync(int id);
         Task AddAsync(User user);
         Task<ICollection<User>> GetReceiversOfCartAsync(int cartId);
+        Task<bool> CheckPasswordAsync(string email, string password);
         Task SaveChangesAsync();
 
     }
