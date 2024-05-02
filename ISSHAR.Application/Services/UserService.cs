@@ -20,12 +20,12 @@ namespace ISSHAR.Application.Services
             _cloudinary = cloudinary;
         }
 
-        public async Task<ICollection<UserDisplayDTO>> GetAllUsersAsync()
+        public async Task<ICollection<UserInfoDTO>> GetAllUsersAsync()
         {
             try
             {
                 var users = await _userRepository.GetAllAsync();
-                var userDTOs = _mapper.Map<ICollection<UserDisplayDTO>>(users);
+                var userDTOs = _mapper.Map<ICollection<UserInfoDTO>>(users);
                 return userDTOs;
             }
             catch (Exception ex)
@@ -76,6 +76,19 @@ namespace ISSHAR.Application.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while getting receivers Of cart.");
+                throw;
+            }
+        }
+
+        public async Task<bool> CheckPasswordAsync(LoginBodyRequest loginBody)
+        {
+            try
+            {
+                return await _userRepository.CheckPasswordAsync(loginBody.Email, loginBody.Password);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while checking user's password.");
                 throw;
             }
         }

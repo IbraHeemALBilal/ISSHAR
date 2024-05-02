@@ -1,4 +1,6 @@
-﻿namespace ISSHAR.DAL.Entities
+﻿using ISSHAR.DAL.Enums;
+
+namespace ISSHAR.DAL.Entities
 {
     public class User
     {
@@ -13,7 +15,7 @@
         public DateTime DateOfBirth { get; set;}
         public string City { set; get; }
         public string Gender { set; get; }
-        public string Role { get; set;}
+        public Role Role { get; set;}
 
         public ICollection<Advertisement> Advertisements { set; get;}
         public ICollection<Hall> Halls { set; get; }

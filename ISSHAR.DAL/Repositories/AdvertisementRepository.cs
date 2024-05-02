@@ -54,7 +54,7 @@ namespace ISSHAR.DAL.Repositories
             var filteredAds = await _context.Advertisements.AsNoTracking()
                 .Where(ad => (city == null || ad.City == city) &&
                     (serviceType == null || ad.ServiceType == serviceType)&&
-                    ad.Status==Status.Approved)
+                    ad.Status== Status.Approved)
                 .OrderByDescending(a=>a.DatePosted)
                 .ToListAsync();
 
