@@ -2,6 +2,7 @@
 using ISSHAR.Application.DTOs.AdvertisementDTOs;
 using ISSHAR.Application.Services;
 using ISSHAR.DAL.Entities;
+using ISSHAR.DAL.Enums;
 using ISSHAR.DAL.Repositories;
 using Microsoft.Extensions.Logging;
 
@@ -22,11 +23,11 @@ namespace ISSHAR.Application.Services
             _cloudinary = cloudinary;
         }
 
-        public async Task<ICollection<AdvertisementDisplayDTO>> GetAllAsync()
+        public async Task<ICollection<AdvertisementDisplayDTO>> GetAdsByStatusAsync(Status status)
         {
             try
             {
-                var advertisements = await _advertisementRepository.GetAllAsync();
+                var advertisements = await _advertisementRepository.GetByStatusAsync(status);
                 var advertisementDTOs = _mapper.Map<ICollection<AdvertisementDisplayDTO>>(advertisements);
                 return advertisementDTOs;
             }
@@ -57,8 +58,10 @@ namespace ISSHAR.Application.Services
             try
             {
                 var advertisement = _mapper.Map<Advertisement>(advertisementDTO);
-                advertisement.ImageUrl = await _cloudinary.UploadImageAsync(advertisementDTO.ImageFile);
+                advertisement.ImageUrl = await GetAdvertisementImageUrl(advertisementDTO);
+                advertisement.Status = Status.Pending;
                 await _advertisementRepository.AddAsync(advertisement);
+
                 var advertisementDisplayDTO = _mapper.Map<AdvertisementDisplayDTO>(advertisement);
                 return advertisementDisplayDTO;
             }
@@ -68,27 +71,7 @@ namespace ISSHAR.Application.Services
                 throw;
             }
         }
-
-        public async Task<bool> UpdateAsync(int id, AdvertisementDTO advertisementDTO)
-        {
-            try
-            {
-                var existingAdvertisement = await _advertisementRepository.GetByIdAsync(id);
-                if (existingAdvertisement is null)
-                {
-                    return false;
-                }
-                _mapper.Map(advertisementDTO, existingAdvertisement);
-                await _advertisementRepository.UpdateAsync(existingAdvertisement);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while updating advertisement with ID: {AdvertisementId}", id);
-                throw;
-            }
-        }
-
+        
         public async Task<bool> DeleteAsync(int id)
         {
             try
@@ -136,6 +119,37 @@ namespace ISSHAR.Application.Services
                 _logger.LogError(ex, "Error occurred while getting filtered advertisements.");
                 throw;
             }
+        }
+        public async Task<bool> ChangeStatusAsync(int id, string newStatus)
+        {
+            try
+            {
+                if (!Enum.TryParse(newStatus, out Status status))
+                {
+                    return false;
+                }
+                var advertisement = await _advertisementRepository.GetByIdAsync(id);
+                if (advertisement == null)
+                {
+                    return false;
+                }
+                advertisement.Status = status;
+                await _advertisementRepository.UpdateAsync(advertisement);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while changing status of advertisement with ID: {AdvertisementId}", id);
+                throw;
+            }
+        }
+
+        private async Task<string> GetAdvertisementImageUrl(AdvertisementDTO advertisementDTO)
+        {
+            return advertisementDTO.ImageFile == null
+                ? DefaultImageUrls.AdvertisementImageUrl
+                : await _cloudinary.UploadImageAsync(advertisementDTO.ImageFile);
         }
 
 

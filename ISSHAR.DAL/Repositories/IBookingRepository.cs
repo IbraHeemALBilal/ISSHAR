@@ -12,6 +12,7 @@ namespace ISSHAR.DAL.Repositories
         Task<ICollection<Booking>> GetByHallIdAsync(int hallId);
         Task<ICollection<Booking>> GetByUserIdAsync(int userId);
         Task<bool> HasBookingConflictAsync(int hallId, DateTime startDate, DateTime endDate);
+        Task<bool> HasFutureBookingsAsync(int hallId);
         Task SaveChangesAsync();
     }
 }

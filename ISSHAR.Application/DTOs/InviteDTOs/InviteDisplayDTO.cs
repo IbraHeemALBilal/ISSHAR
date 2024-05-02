@@ -10,7 +10,7 @@ namespace ISSHAR.Application.DTOs.InviteDTOs
         public int ReceiverId { get; set; }
         public int CardId { get; set; }
 
-        public SenderDTO Sender { get; set; }
+        public UserInfoDTO Sender { get; set; }
         public CardDisplayDTO Card { get; set; }
     }
 }

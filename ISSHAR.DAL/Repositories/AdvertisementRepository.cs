@@ -1,4 +1,5 @@
 ﻿using ISSHAR.DAL.Entities;
+using ISSHAR.DAL.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace ISSHAR.DAL.Repositories
@@ -10,9 +11,12 @@ namespace ISSHAR.DAL.Repositories
         {
             _context = context;
         }
-        public async Task<ICollection<Advertisement>> GetAllAsync()
+        public async Task<ICollection<Advertisement>> GetByStatusAsync(Status status)
         {
-            return await _context.Advertisements.AsNoTracking().ToListAsync();
+            return await _context.Advertisements.AsNoTracking()
+                .Where(a => a.Status == status)
+                .OrderByDescending(a=>a.DatePosted)
+                .ToListAsync();
         }
         public async Task<Advertisement> GetByIdAsync(int id)
         {
@@ -39,12 +43,19 @@ namespace ISSHAR.DAL.Repositories
         }
         public async Task<ICollection<Advertisement>> GetAdsByUserAsync(int userId)
         {
-            return await _context.Advertisements.AsNoTracking().Where(a=>a.UserId== userId).ToListAsync();
+            return await _context.Advertisements.AsNoTracking()
+                .Where(a=>a.UserId== userId)
+                .OrderBy(a=>a.Status)
+                .ThenByDescending(a=>a.DatePosted)
+                .ToListAsync();
         }
         public async Task<ICollection<Advertisement>> GetFilteredAdsAsync(string? city, string? serviceType)
         {
             var filteredAds = await _context.Advertisements.AsNoTracking()
-                .Where(ad => (city == null || ad.City == city) && (serviceType == null || ad.ServiceType == serviceType))
+                .Where(ad => (city == null || ad.City == city) &&
+                    (serviceType == null || ad.ServiceType == serviceType)&&
+                    ad.Status==Status.Approved)
+                .OrderByDescending(a=>a.DatePosted)
                 .ToListAsync();
 
             return filteredAds;

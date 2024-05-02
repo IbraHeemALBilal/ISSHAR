@@ -15,5 +15,6 @@ namespace ISSHAR.Application.DTOs.HallDTOs
         public decimal PartyPrice { set; get; }
 
         public ICollection<HallImageDisplayDTO> HallImages { set; get; }
+        public string Status { get; set; }
     }
 }

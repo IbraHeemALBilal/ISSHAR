@@ -7,6 +7,7 @@ namespace ISSHAR.DAL.Repositories
         Task<ICollection<User>> GetAllAsync();
         Task<User> GetByIdAsync(int id);
         Task AddAsync(User user);
+        Task<ICollection<User>> GetReceiversOfCartAsync(int cartId);
         Task SaveChangesAsync();
 
     }

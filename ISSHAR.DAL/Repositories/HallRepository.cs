@@ -1,4 +1,5 @@
 ﻿using ISSHAR.DAL.Entities;
+using ISSHAR.DAL.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace ISSHAR.DAL.Repositories
@@ -11,10 +12,9 @@ namespace ISSHAR.DAL.Repositories
         {
             _context = context;
         }
-        public async Task<ICollection<Hall>> GetAllAsync()
+        public async Task<ICollection<Hall>> GetByStatusAsync(Status status)
         {
-            return await _context.Halls.AsNoTracking().ToListAsync();
-
+            return await _context.Halls.AsNoTracking().Where(h=>h.Status==status).ToListAsync();
         }
         public async Task<Hall> GetByIdAsync(int id)
         {
@@ -49,11 +49,10 @@ namespace ISSHAR.DAL.Repositories
                 .Where(h =>
                     (city == null || h.City == city) &&
                     (!minPrice.HasValue || h.PartyPrice >= minPrice) &&
-                    (!maxPrice.HasValue || h.PartyPrice <= maxPrice)
+                    (!maxPrice.HasValue || h.PartyPrice <= maxPrice) &&
+                    h.Status == Status.Approved
                 )
                 .ToListAsync();
         }
-
-
     }
 }

@@ -1,5 +1,4 @@
-﻿using ISSHAR.Application.DTOs.HallImageDTOs;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace ISSHAR.Application.DTOs.HallDTOs
@@ -21,7 +20,7 @@ namespace ISSHAR.Application.DTOs.HallDTOs
         [Required(ErrorMessage = "Capacity is required")]
         [Range(1, int.MaxValue, ErrorMessage = "Capacity must be a positive number")]
         public int Capacity { get; set; }
-        public IFormFile LogoFile { get; set; }
+        public IFormFile? LogoFile { get; set; }
 
         [Required(ErrorMessage = "Owner Id is required")]
         public int OwnerId { get; set; }

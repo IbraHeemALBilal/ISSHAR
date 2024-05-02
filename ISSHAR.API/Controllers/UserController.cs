@@ -17,7 +17,7 @@ namespace ISSHAR.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
+        public async Task<ActionResult<ICollection<User>>> GetAllUsers()
         {
             var users = await _userService.GetAllUsersAsync();
             return Ok(users);
@@ -35,10 +35,16 @@ namespace ISSHAR.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddUser(UserDTO userDto)
+        public async Task<ActionResult> AddUser([FromForm] UserDTO userDto)
         {
             await _userService.AddUserAsync(userDto);
             return Ok("User added successfully.");
+        }
+        [HttpGet("receivers/{cartId}")]
+        public async Task<ActionResult<ICollection<UserInfoDTO>>> GetReceiversOfCartAsync(int cartId)
+        {
+            var receivers = await _userService.GetReceiversOfCartAsync(cartId);
+            return Ok(receivers);
         }
     }
 }

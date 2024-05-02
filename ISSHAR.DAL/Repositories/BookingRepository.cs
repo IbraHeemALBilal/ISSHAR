@@ -52,6 +52,15 @@ namespace ISSHAR.DAL.Repositories
 
             return isConflict;
         }
+        public async Task<bool> HasFutureBookingsAsync(int hallId)
+        {
+            var now = DateTime.Now;
+
+            var hasFutureBookings = await _context.Bookings
+                .AnyAsync(b => b.HallId == hallId && b.EndDate > now);
+
+            return hasFutureBookings;
+        }
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();

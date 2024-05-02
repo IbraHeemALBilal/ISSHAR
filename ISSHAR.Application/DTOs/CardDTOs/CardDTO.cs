@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ISSHAR.Application.Attributes;
+using System.ComponentModel.DataAnnotations;
 
 namespace ISSHAR.Application.DTOs.CardDTOs
 {
@@ -6,12 +7,11 @@ namespace ISSHAR.Application.DTOs.CardDTOs
     {
         [Required(ErrorMessage = "Title is required")]
         public string Title { get; set; }
-
         [Required(ErrorMessage = "Party date is required")]
+        [LaterThanNow(ErrorMessage = "Party date must be later than current date.")]
         public DateTime PartyDate { get; set; }
         [Required(ErrorMessage = "JsonData  is required")]
         public string JsonData { get; set; }
-
         [Range(1, int.MaxValue, ErrorMessage = "User ID must be a positive integer")]
         public int UserId { get; set; }
     }
