@@ -1,4 +1,5 @@
 ﻿using ISSHAR.Application.DTOs.UserDTOs;
+using ISSHAR.DAL.Entities;
 
 namespace ISSHAR.Application.Services
 {
@@ -9,5 +10,7 @@ namespace ISSHAR.Application.Services
         Task AddUserAsync(UserDTO userDTO);
         Task<ICollection<UserInfoDTO>> GetReceiversOfCartAsync(int cartId);
         Task<bool> CheckPasswordAsync(LoginBodyRequest loginBody);
+        Task<UserDTO> GetUserByEmailAsync(string email);
+
     }
 }

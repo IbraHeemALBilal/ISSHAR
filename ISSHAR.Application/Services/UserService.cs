@@ -99,5 +99,20 @@ namespace ISSHAR.Application.Services
 
             return userDTO.ImageFile == null ? defaultImageUrl : await _cloudinary.UploadImageAsync(userDTO.ImageFile);
         }
+
+        public async Task<UserDTO> GetUserByEmailAsync(string email)
+        {
+            try
+            {
+                var user = await _userRepository.GetUserByEmailAsync(email);
+                var userDTO = _mapper.Map<UserDTO>(user);
+                return userDTO;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting User by id.");
+                throw;
+            }
+        }
     }
 }

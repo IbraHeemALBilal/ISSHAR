@@ -47,5 +47,9 @@ namespace ISSHAR.DAL.Repositories
         {
             await _context.SaveChangesAsync();
         }
+        public async Task<User> GetUserByEmailAsync(string email)
+        {
+            return await _context.Users.AsNoTracking().FirstOrDefaultAsync(e => e.Email == email);
+        }
     }
 }
