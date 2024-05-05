@@ -1,4 +1,6 @@
-﻿namespace ISSHAR.Application.DTOs.UserDTOs
+﻿using ISSHAR.DAL.Enums;
+
+namespace ISSHAR.Application.DTOs.UserDTOs
 {
     public class UserDisplayDTO
     {
@@ -10,6 +12,7 @@
         public string ImageUrl { get; set; }
         public string Password { set; get; }
         public string Email { set; get; }
+        public Role Role { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string City { set; get; }
         public string Gender { set; get; }
