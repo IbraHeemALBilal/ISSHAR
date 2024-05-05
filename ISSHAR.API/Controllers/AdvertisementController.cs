@@ -1,6 +1,7 @@
 ﻿using ISSHAR.Application.DTOs.AdvertisementDTOs;
 using ISSHAR.Application.Services;
 using ISSHAR.DAL.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ISSHAR.API.Controllers
@@ -21,6 +22,7 @@ namespace ISSHAR.API.Controllers
             var advertisements = await _advertisementService.GetAdsByStatusAsync(Status.Approved);
             return Ok(advertisements);
         }
+        [Authorize(Roles = "Admin")]
         [HttpGet("pending")]
         public async Task<ActionResult<ICollection<AdvertisementDisplayDTO>>> GetPendingAsync()
         {
@@ -35,6 +37,7 @@ namespace ISSHAR.API.Controllers
                 return NotFound();
             return Ok(advertisement);
         }
+        [Authorize(Roles = "Reguler, HallOwner")]
         [HttpPost]
         public async Task<ActionResult<AdvertisementDisplayDTO>> AddAsync([FromForm] AdvertisementDTO advertisementDTO)
         {
@@ -42,6 +45,7 @@ namespace ISSHAR.API.Controllers
 
             return Ok(advertisement);
         }
+        [Authorize(Roles = "Reguler, HallOwner")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAsync(int id)
         {
@@ -51,7 +55,7 @@ namespace ISSHAR.API.Controllers
 
             return Ok("Advertisement deleted successfully.");
         }
-
+        [Authorize(Roles = "Reguler, HallOwner")]
         [HttpGet("user/{userId}")]
         public async Task<ActionResult<ICollection<AdvertisementDisplayDTO>>> GetAdsByUserAsync(int userId)
         {
@@ -65,6 +69,7 @@ namespace ISSHAR.API.Controllers
             var advertisements = await _advertisementService.GetFilteredAdsAsync(filterBody);
             return Ok(advertisements);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}/status")]
         public async Task<ActionResult> ChangeStatusAsync(int id, [FromQuery] string newStatus)
         {

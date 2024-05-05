@@ -10,9 +10,9 @@ namespace ISSHAR.Application.Services
     {
         private readonly ICardRepository _cardRepository;
         private readonly IMapper _mapper;
-        private readonly ILogger<CardService> _logger;
+        private readonly ILogger<ICardService> _logger;
 
-        public CardService(ICardRepository cardRepository, IMapper mapper, ILogger<CardService> logger)
+        public CardService(ICardRepository cardRepository, IMapper mapper, ILogger<ICardService> logger)
         {
             _cardRepository = cardRepository;
             _mapper = mapper;

@@ -10,7 +10,7 @@ namespace ISSHAR.Application.Services
         Task AddUserAsync(UserDTO userDTO);
         Task<ICollection<UserInfoDTO>> GetReceiversOfCartAsync(int cartId);
         Task<bool> CheckPasswordAsync(LoginBodyRequest loginBody);
-        Task<UserDTO> GetUserByEmailAsync(string email);
+        Task<UserDisplayDTO> GetUserByEmailAsync(string email);
 
     }
 }

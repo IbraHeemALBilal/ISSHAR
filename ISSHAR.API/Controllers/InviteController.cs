@@ -1,11 +1,13 @@
 ﻿using ISSHAR.Application.DTOs.InviteDTOs;
 using ISSHAR.Application.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ISSHAR.API.Controllers
 {
     [Route("api/invites")]
     [ApiController]
+    [Authorize(Roles = "Reguler, HallOwner")]
     public class InviteController : ControllerBase
     {
         private readonly IInviteService _inviteService;

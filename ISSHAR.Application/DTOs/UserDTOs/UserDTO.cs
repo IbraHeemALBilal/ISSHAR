@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using ISSHAR.DAL.Enums;
 using Microsoft.AspNetCore.Http;
 
 namespace ISSHAR.Application.DTOs.UserDTOs
@@ -35,7 +36,8 @@ namespace ISSHAR.Application.DTOs.UserDTOs
         public string Gender { get; set; }
 
         [Required(ErrorMessage = "Role is required")]
-        public string Role { get; set; }
+        [EnumDataType(typeof(Role))]
+        public Role Role { get; set; }
         public IFormFile? ImageFile { get; set; }
     }
 }
