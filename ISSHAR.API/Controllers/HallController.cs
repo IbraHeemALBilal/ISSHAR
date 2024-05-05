@@ -1,6 +1,7 @@
 ﻿using ISSHAR.Application.DTOs.HallDTOs;
 using ISSHAR.Application.Services;
 using ISSHAR.DAL.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ISSHAR.API.Controllers
@@ -21,13 +22,14 @@ namespace ISSHAR.API.Controllers
             var halls = await _hallService.GetHallsByStatusAsync(Status.Approved);
             return Ok(halls);
         }
+        [Authorize(Roles = "Admin")]
         [HttpGet("pending")]
         public async Task<ActionResult<ICollection<HallDisplayDTO>>> GetPendingAsync()
         {
             var halls = await _hallService.GetHallsByStatusAsync(Status.Pending);
             return Ok(halls);
         }
-
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<HallDisplayDTO>> GetByIdAsync(int id)
         {
@@ -36,14 +38,14 @@ namespace ISSHAR.API.Controllers
                 return NotFound();
             return Ok(hall);
         }
-
+        [Authorize(Roles = "HallOwner")]
         [HttpPost]
         public async Task<ActionResult> AddAsync([FromForm] HallDTO hallDTO)
         {
             var hall = await _hallService.AddAsync(hallDTO);
             return Ok(hall);
         }
-
+        [Authorize(Roles = "HallOwner")]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateAsync(int id, HallDTO hallDTO)
         {
@@ -53,7 +55,7 @@ namespace ISSHAR.API.Controllers
 
             return Ok("Hall updated successfully.");
         }
-
+        [Authorize(Roles = "HallOwner")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAsync(int id)
         {
@@ -63,7 +65,7 @@ namespace ISSHAR.API.Controllers
 
             return Ok("Hall deleted successfully.");
         }
-
+        [Authorize(Roles = "HallOwner")]
         [HttpGet("owner/{ownerId}")]
         public async Task<ActionResult<ICollection<HallDisplayDTO>>> GetByOwnerId(int ownerId)
         {
@@ -76,6 +78,7 @@ namespace ISSHAR.API.Controllers
             var halls = await _hallService.GetFilteredHallsAsync(hallFitlerBody);
             return Ok(halls);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}/status")]
         public async Task<ActionResult> ChangeStatusAsync(int id, [FromQuery] string newStatus)
         {

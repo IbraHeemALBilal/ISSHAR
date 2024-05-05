@@ -1,4 +1,5 @@
 using CloudinaryDotNet;
+using ISSHAR.API;
 using ISSHAR.Application.Profiles;
 using ISSHAR.Application.Services;
 using ISSHAR.DAL;
@@ -10,9 +11,42 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//Jwt configuration starts here
-var jwtIssuer = builder.Configuration.GetSection("Jwt:Issuer").Get<string>();
-var jwtKey = builder.Configuration.GetSection("Jwt:Key").Get<string>();
+var configuration = builder.Configuration;
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "ISHHAR", Version = "v1" });
+
+    var jwtSettings = configuration.GetSection("JwtSettings");
+    var key = Encoding.ASCII.GetBytes(jwtSettings["Secret"]);
+
+    options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme. Enter 'Bearer' [space] and then your token in the text input below.",
+        Name = "Authorization",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey
+    });
+
+    options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+                {
+                    {
+                        new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                        {
+                            Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                            {
+                                Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
+});
+
+var jwtIssuer = builder.Configuration.GetSection("JwtSettings:Issuer").Get<string>();
+var jwtKey = builder.Configuration.GetSection("JwtSettings:Secret").Get<string>();
+var jwtAudience = builder.Configuration.GetSection("JwtSettings:Audience").Get<string>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
  .AddJwtBearer(options =>
@@ -24,11 +58,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
          ValidateLifetime = true,
          ValidateIssuerSigningKey = true,
          ValidIssuer = jwtIssuer,
-         ValidAudience = jwtIssuer,
+         ValidAudience = jwtAudience,
          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
      };
  });
-//Jwt configuration ends here
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -90,6 +124,8 @@ app.Run();
 
 static void InjectServicesAndRepositories(WebApplicationBuilder builder)
 {
+    builder.Services.AddSingleton<IJwtGenerator,JwtGenerator>();
+
     builder.Services.AddScoped<IImageService, CloudinaryImageService>();
 
     builder.Services.AddScoped<IUserRepository, UserRepository>();

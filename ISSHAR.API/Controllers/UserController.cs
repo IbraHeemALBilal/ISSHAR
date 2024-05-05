@@ -1,6 +1,7 @@
 ﻿using ISSHAR.Application.DTOs.UserDTOs;
 using ISSHAR.Application.Services;
 using ISSHAR.DAL.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ISSHAR.API.Controllers
@@ -33,13 +34,7 @@ namespace ISSHAR.API.Controllers
             }
             return Ok(user);
         }
-
-        [HttpPost]
-        public async Task<ActionResult> AddUser([FromForm] UserDTO userDto)
-        {
-            await _userService.AddUserAsync(userDto);
-            return Ok("User added successfully.");
-        }
+        [Authorize(Roles = "Reguler, HallOwner")]
         [HttpGet("receivers/{cartId}")]
         public async Task<ActionResult<ICollection<UserInfoDTO>>> GetReceiversOfCartAsync(int cartId)
         {

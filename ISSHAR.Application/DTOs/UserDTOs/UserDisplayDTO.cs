@@ -12,9 +12,10 @@ namespace ISSHAR.Application.DTOs.UserDTOs
         public string ImageUrl { get; set; }
         public string Password { set; get; }
         public string Email { set; get; }
-        public Role Role { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string City { set; get; }
         public string Gender { set; get; }
+        public Role Role { get; set; }
+
     }
 }

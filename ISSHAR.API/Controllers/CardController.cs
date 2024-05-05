@@ -1,11 +1,13 @@
 ﻿using ISSHAR.Application.DTOs.CardDTOs;
 using ISSHAR.Application.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ISSHAR.API.Controllers
 {
     [Route("api/cards")]
     [ApiController]
+    [Authorize(Roles = "Reguler, HallOwner")]
     public class CardController : ControllerBase
     {
         private readonly ICardService _cardService;

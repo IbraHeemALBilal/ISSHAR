@@ -1,5 +1,6 @@
 ﻿using ISSHAR.Application.DTOs.BookingDTOs;
 using ISSHAR.Application.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ISSHAR.API.Controllers
@@ -14,14 +15,14 @@ namespace ISSHAR.API.Controllers
         {
             _bookingService = bookingService;
         }
-
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<ICollection<BookingDisplayDTO>>> GetAllAsync()
         {
             var bookings = await _bookingService.GetAllAsync();
             return Ok(bookings);
         }
-
+        [Authorize(Roles = "Reguler, HallOwner")]
         [HttpGet("{id}")]
         public async Task<ActionResult<BookingDisplayDTO>> GetByIdAsync(int id)
         {
@@ -30,7 +31,7 @@ namespace ISSHAR.API.Controllers
                 return NotFound();
             return Ok(booking);
         }
-
+        [Authorize(Roles = "Reguler, HallOwner")]
         [HttpPost]
         public async Task<ActionResult> AddAsync(BookingDTO bookingDTO)
         {
@@ -39,6 +40,7 @@ namespace ISSHAR.API.Controllers
                 return Ok("Booking added successfully.");
             else return Conflict("Booking conflicts with existing booking.");
         }
+        [Authorize(Roles = "Reguler, HallOwner")]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateAsync(int id, BookingDTO bookingDTO)
         {
@@ -48,7 +50,7 @@ namespace ISSHAR.API.Controllers
 
             return Ok("Booking updated successfully.");
         }
-
+        [Authorize(Roles = "Reguler, HallOwner")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAsync(int id)
         {
@@ -58,20 +60,21 @@ namespace ISSHAR.API.Controllers
 
             return Ok("Booking deleted successfully.");
         }
-
+        [Authorize(Roles = "HallOwner")]
         [HttpGet("hall/{hallId}")]
         public async Task<ActionResult<ICollection<BookingDisplayDTO>>> GetByHallIdAsync(int hallId)
         {
             var bookings = await _bookingService.GetByHallIdAsync(hallId);
             return Ok(bookings);
         }
-
+        [Authorize(Roles = "Reguler")]
         [HttpGet("user/{userId}")]
         public async Task<ActionResult<ICollection<BookingDisplayDTO>>> GetByUserIdAsync(int userId)
         {
             var bookings = await _bookingService.GetByUserIdAsync(userId);
             return Ok(bookings);
         }
+        [Authorize(Roles = "Reguler, HallOwner")]
         [HttpPost("hall/{hallId}/availability")]
         public async Task<ActionResult<bool>> CheckHallAvailabilityAsync(int hallId, [FromBody] DateRangeDTO dateRange)
         {
