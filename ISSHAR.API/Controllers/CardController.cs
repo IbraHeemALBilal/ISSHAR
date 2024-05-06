@@ -38,7 +38,7 @@ namespace ISSHAR.API.Controllers
         public async Task<IActionResult> AddCard(CardDTO cardDTO)
         {
             await _cardService.AddAsync(cardDTO);
-            return Ok();
+            return Ok(cardDTO);
         }
 
         [HttpDelete("{id}")]
