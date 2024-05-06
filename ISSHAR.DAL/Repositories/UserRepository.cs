@@ -37,11 +37,7 @@ namespace ISSHAR.DAL.Repositories
         public async Task<bool> CheckPasswordAsync(string email, string password)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
-
-            if (user is null)
-                return false;
-
-            return BCrypt.Net.BCrypt.Verify(password, user.Password);
+            return user?.VerifyPassword(password) ?? false;
         }
         public async Task SaveChangesAsync()
         {

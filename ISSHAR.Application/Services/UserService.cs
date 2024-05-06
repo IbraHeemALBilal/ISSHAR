@@ -79,7 +79,20 @@ namespace ISSHAR.Application.Services
                 throw;
             }
         }
-
+        public async Task<UserDisplayDTO> GetUserByEmailAsync(string email)
+        {
+            try
+            {
+                var user = await _userRepository.GetUserByEmailAsync(email);
+                var userDTO = _mapper.Map<UserDisplayDTO>(user);
+                return userDTO;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting User by id.");
+                throw;
+            }
+        }
         public async Task<bool> CheckPasswordAsync(LoginBodyRequest loginBody)
         {
             try
@@ -100,19 +113,6 @@ namespace ISSHAR.Application.Services
             return userDTO.ImageFile == null ? defaultImageUrl : await _cloudinary.UploadImageAsync(userDTO.ImageFile);
         }
 
-        public async Task<UserDisplayDTO> GetUserByEmailAsync(string email)
-        {
-            try
-            {
-                var user = await _userRepository.GetUserByEmailAsync(email);
-                var userDTO = _mapper.Map<UserDisplayDTO>(user);
-                return userDTO;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while getting User by id.");
-                throw;
-            }
-        }
+
     }
 }

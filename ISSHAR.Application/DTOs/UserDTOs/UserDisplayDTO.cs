@@ -10,7 +10,6 @@ namespace ISSHAR.Application.DTOs.UserDTOs
         public string GrandFatherName { get; set; }
         public string FamilyName { get; set; }
         public string ImageUrl { get; set; }
-        public string Password { set; get; }
         public string Email { set; get; }
         public DateTime DateOfBirth { get; set; }
         public string City { set; get; }

@@ -40,7 +40,12 @@ namespace ISSHAR.API.Controllers
             var userDto = await _userService.GetUserByEmailAsync(loginBody.Email);
             var tokenString = _jwtGenerator.GenerateJwtToken(userDto);
 
-            return Ok(new { Token = tokenString });
+            return Ok(new
+            {
+                UserId = userDto.UserId,
+                Role = userDto.Role,
+                Token = tokenString
+            });
         }
     }
 }
