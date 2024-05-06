@@ -1,4 +1,6 @@
 ﻿using ISSHAR.Application.Attributes;
+using ISSHAR.Application.DTOs.HallDTOs;
+using ISSHAR.Application.DTOs.UserDTOs;
 using System.ComponentModel.DataAnnotations;
 
 namespace ISSHAR.Application.DTOs.BookingDTOs
