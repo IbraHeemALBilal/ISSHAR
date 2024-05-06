@@ -20,6 +20,11 @@ namespace ISSHAR.API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult> register([FromForm] UserDTO userDto)
         {
+            var existingUser = await _userService.GetUserByEmailAsync(userDto.Email);
+            if (existingUser != null)
+            {
+                return Conflict("User with the same email already exists.");
+            }
             await _userService.AddUserAsync(userDto);
             return Ok();
         }
