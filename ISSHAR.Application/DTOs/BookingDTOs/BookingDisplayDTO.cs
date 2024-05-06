@@ -1,5 +1,5 @@
-﻿using ISSHAR.Application.DTOs.UserDTOs;
-using ISSHAR.DAL.Entities;
+﻿using ISSHAR.Application.DTOs.HallDTOs;
+using ISSHAR.Application.DTOs.UserDTOs;
 
 namespace ISSHAR.Application.DTOs.BookingDTOs
 {
@@ -9,8 +9,9 @@ namespace ISSHAR.Application.DTOs.BookingDTOs
         public int UserId { set; get; }
         public int HallId { get; set; }
         public DateTime StartDate { get; set; }
-        public ICollection<UserInfoDTO> UserInfoDTO { set; get; }
-
         public DateTime EndDate { get; set; }
+
+        public UserInfoDTO User { set; get; }
+        public HallDisplayDTO Hall { get; set; }
     }
 }

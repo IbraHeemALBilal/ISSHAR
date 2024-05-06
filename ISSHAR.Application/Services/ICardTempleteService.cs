@@ -6,7 +6,7 @@ namespace ISSHAR.Application.Services
     {
         Task<ICollection<CardTempletDisplayDTO>> GetAllAsync();
         Task<CardTempletDisplayDTO> GetByIdAsync(int id);
-        Task AddAsync(CardTempletDTO cardTempletDTO);
+        Task<CardTempletDisplayDTO> AddAsync(CardTempletDTO cardTempletDTO);
         Task<bool> DeleteAsync(int id);
     }
 }

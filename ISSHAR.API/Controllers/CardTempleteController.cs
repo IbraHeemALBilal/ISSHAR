@@ -39,8 +39,8 @@ namespace ISSHAR.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddCardTemplate(CardTempletDTO cardTemplateDTO)
         {
-            await _cardTemplateService.AddAsync(cardTemplateDTO);
-            return Ok(cardTemplateDTO);
+            var cardTemplet = await _cardTemplateService.AddAsync(cardTemplateDTO);
+            return Ok(cardTemplet);
         }
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]

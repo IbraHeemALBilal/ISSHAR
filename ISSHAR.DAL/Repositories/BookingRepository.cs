@@ -16,7 +16,7 @@ namespace ISSHAR.DAL.Repositories
         }
         public async Task<Booking> GetByIdAsync(int id)
         {
-            return await _context.Bookings.AsNoTracking().Include(c => c.Hall).FirstOrDefaultAsync(a => a.BookingId == id);
+            return await _context.Bookings.AsNoTracking().Include(c => c.Hall).Include(b=>b.User).FirstOrDefaultAsync(a => a.BookingId == id);
 
         }
         public async Task AddAsync(Booking booking)
@@ -36,11 +36,11 @@ namespace ISSHAR.DAL.Repositories
         }
         public async Task<ICollection<Booking>> GetByHallIdAsync(int hallId)
         {
-            return await _context.Bookings.AsNoTracking().Include(c => c.User).Where(b=>b.HallId==hallId).ToListAsync();
+            return await _context.Bookings.AsNoTracking().Include(b=> b.User).Where(b=>b.HallId==hallId).ToListAsync();
         }
         public async Task<ICollection<Booking>> GetByUserIdAsync(int userId)
         {
-            return await _context.Bookings.AsNoTracking().Where(b => b.UserId == userId).ToListAsync();
+            return await _context.Bookings.AsNoTracking().Include(b=>b.Hall).Where(b => b.UserId == userId).ToListAsync();
 
         }
         public async Task<bool> HasBookingConflictAsync(int hallId, DateTime startDate, DateTime endDate)

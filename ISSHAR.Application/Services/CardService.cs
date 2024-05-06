@@ -49,12 +49,14 @@ namespace ISSHAR.Application.Services
             }
         }
 
-        public async Task AddAsync(CardDTO cardDTO)
+        public async Task<CardDisplayDTO> AddAsync(CardDTO cardDTO)
         {
             try
             {
                 var card = _mapper.Map<Card>(cardDTO);
                 await _cardRepository.AddAsync(card);
+                var cardDisplayDTO = _mapper.Map<CardDisplayDTO>(card);
+                return cardDisplayDTO;
             }
             catch (Exception ex)
             {
