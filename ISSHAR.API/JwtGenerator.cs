@@ -24,8 +24,8 @@ namespace ISSHAR.API
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role.ToString()),
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.Role, user.Role.ToString()),
                 }),
                 Expires = DateTime.UtcNow.AddHours(Convert.ToDouble(_configuration["JwtSettings:ExpirationHours"])),
                 Issuer = _configuration["JwtSettings:Issuer"],

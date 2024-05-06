@@ -9,7 +9,7 @@ namespace ISSHAR.API.Controllers
     [ApiController]
     [Authorize(Roles = "Reguler, HallOwner")]
     public class CardController : ControllerBase
-    {
+    { 
         private readonly ICardService _cardService;
 
         public CardController(ICardService cardService)
@@ -37,8 +37,8 @@ namespace ISSHAR.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddCard(CardDTO cardDTO)
         {
-            await _cardService.AddAsync(cardDTO);
-            return Ok(cardDTO);
+            var card = await _cardService.AddAsync(cardDTO);
+            return Ok(card);
         }
 
         [HttpDelete("{id}")]
@@ -51,6 +51,5 @@ namespace ISSHAR.API.Controllers
             }
             return NoContent();
         }
-
     }
 }
