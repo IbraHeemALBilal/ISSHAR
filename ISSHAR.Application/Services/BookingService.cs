@@ -94,6 +94,11 @@ namespace ISSHAR.Application.Services
                 {
                     return false;
                 }
+                if ((existingBooking.StartDate - DateTime.Now).TotalDays <= 7)
+                {
+                    return false;
+                }
+
                 await _bookingRepository.DeleteAsync(existingBooking);
                 return true;
             }
@@ -103,6 +108,7 @@ namespace ISSHAR.Application.Services
                 throw;
             }
         }
+
         public async Task<ICollection<BookingDisplayDTO>> GetByHallIdAsync(int hallId)
         {
             try

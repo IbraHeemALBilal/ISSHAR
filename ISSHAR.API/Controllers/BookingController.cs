@@ -56,7 +56,7 @@ namespace ISSHAR.API.Controllers
         {
             var success = await _bookingService.DeleteAsync(id);
             if (!success)
-                return NotFound("Booking not found.");
+                return NotFound("Booking not found or start date is within 7 days. .");
 
             return Ok("Booking deleted successfully.");
         }
@@ -67,7 +67,7 @@ namespace ISSHAR.API.Controllers
             var bookings = await _bookingService.GetByHallIdAsync(hallId);
             return Ok(bookings);
         }
-        [Authorize(Roles = "Reguler")]
+        [Authorize(Roles = "Reguler, HallOwner")]
         [HttpGet("user/{userId}")]
         public async Task<ActionResult<ICollection<BookingDisplayDTO>>> GetByUserIdAsync(int userId)
         {

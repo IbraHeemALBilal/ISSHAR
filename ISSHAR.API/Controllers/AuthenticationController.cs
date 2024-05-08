@@ -43,6 +43,8 @@ namespace ISSHAR.API.Controllers
             return Ok(new
             {
                 UserId = userDto.UserId,
+                FirstName= userDto.FirstName,
+                FamilyName = userDto.FamilyName,
                 Role = userDto.Role,
                 Token = tokenString
             });
