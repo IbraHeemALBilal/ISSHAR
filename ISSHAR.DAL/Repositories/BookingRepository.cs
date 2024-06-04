@@ -38,6 +38,12 @@ namespace ISSHAR.DAL.Repositories
         {
             return await _context.Bookings.AsNoTracking().Include(b=> b.User).Where(b=>b.HallId==hallId).ToListAsync();
         }
+        public async Task<ICollection<Booking>> GetByHallIdAndDateAsync(int hallId, DateOnly date)
+        {
+            return await _context.Bookings.AsNoTracking()
+                .Include(b => b.User)
+                .Where(b => b.HallId == hallId && b.StartDate.Date.Equals(date)).ToListAsync();
+        }
         public async Task<ICollection<Booking>> GetByUserIdAsync(int userId)
         {
             return await _context.Bookings.AsNoTracking().Include(b=>b.Hall).Where(b => b.UserId == userId).ToListAsync();

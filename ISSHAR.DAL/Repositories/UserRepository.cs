@@ -72,8 +72,7 @@ namespace ISSHAR.DAL.Repositories
             if (gender != null)
                 filteredUsers = filteredUsers.Where(u => u.Gender == gender);
 
-            return await filteredUsers.AsNoTracking().ToListAsync();
+            return await filteredUsers.AsNoTracking().Where(u=>u.Role!=Role.Admin).ToListAsync();
         }
-
     }
 }
