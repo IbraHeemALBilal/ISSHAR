@@ -62,7 +62,6 @@ namespace ISSHAR.API.Controllers
             var success = await _hallService.DeleteAsync(id);
             if (!success)
                 return NotFound("Hall not found or have future bookings.");
-
             return Ok("Hall deleted successfully.");
         }
         [Authorize(Roles = "HallOwner")]

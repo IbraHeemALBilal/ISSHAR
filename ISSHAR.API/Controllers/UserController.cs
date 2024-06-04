@@ -18,14 +18,14 @@ namespace ISSHAR.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ICollection<User>>> GetAllUsers()
+        public async Task<ActionResult<ICollection<UserInfoDTO>>> GetAllUsers()
         {
             var users = await _userService.GetAllUsersAsync();
             return Ok(users);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUserById(int id)
+        public async Task<ActionResult<UserDisplayDTO>> GetUserById(int id)
         {
             var user = await _userService.GetUserByIdAsync(id);
             if (user is null)

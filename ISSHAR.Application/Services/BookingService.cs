@@ -123,6 +123,20 @@ namespace ISSHAR.Application.Services
                 throw;
             }
         }
+        public async Task<ICollection<BookingDisplayDTO>> GetByHallIdAndDateAsync(int hallId, DateOnly date)
+        {
+            try
+            {
+                var bookings = await _bookingRepository.GetByHallIdAndDateAsync(hallId,date);
+                var bookingDTOs = _mapper.Map<ICollection<BookingDisplayDTO>>(bookings);
+                return bookingDTOs;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting bookings.");
+                throw;
+            }
+        }
         public async Task<ICollection<BookingDisplayDTO>> GetByUserIdAsync(int userId)
         {
             try
