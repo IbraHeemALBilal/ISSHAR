@@ -47,32 +47,21 @@ namespace ISSHAR.DAL.Repositories
         {
             return await _context.Users.AsNoTracking().FirstOrDefaultAsync(e => e.Email == email);
         }
-        public async Task<ICollection<User>> GetFilteredUsersAsync
-            (string? firstName, string? fatherName,
+        public async Task<ICollection<User>> GetFilteredUsersAsync(
+            string? firstName, string? fatherName,
             string? grandFatherName, string? familyName,
             string? city, string? gender)
         {
-            var filteredUsers = _context.Users.AsQueryable();
-
-            if (firstName != null)
-                filteredUsers = filteredUsers.Where(u => u.FirstName == firstName);
-
-            if (fatherName != null)
-                filteredUsers = filteredUsers.Where(u => u.FatherName == fatherName);
-
-            if (grandFatherName != null)
-                filteredUsers = filteredUsers.Where(u => u.GrandFatherName == grandFatherName);
-
-            if (familyName != null)
-                filteredUsers = filteredUsers.Where(u => u.FamilyName == familyName);
-
-            if (city != null)
-                filteredUsers = filteredUsers.Where(u => u.City == city);
-
-            if (gender != null)
-                filteredUsers = filteredUsers.Where(u => u.Gender == gender);
-
-            return await filteredUsers.AsNoTracking().Where(u=>u.Role!=Role.Admin).ToListAsync();
+            return await _context.Users
+                .Where(u => (string.IsNullOrWhiteSpace(firstName) || u.FirstName == firstName) &&
+                            (string.IsNullOrWhiteSpace(fatherName) || u.FatherName == fatherName) &&
+                            (string.IsNullOrWhiteSpace(grandFatherName) || u.GrandFatherName == grandFatherName) &&
+                            (string.IsNullOrWhiteSpace(familyName) || u.FamilyName == familyName) &&
+                            (string.IsNullOrWhiteSpace(city) || u.City == city) &&
+                            (string.IsNullOrWhiteSpace(gender) || u.Gender == gender) &&
+                            u.Role != Role.Admin)
+                .AsNoTracking()
+                .ToListAsync();
         }
     }
 }
