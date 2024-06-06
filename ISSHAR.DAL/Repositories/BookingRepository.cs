@@ -42,7 +42,8 @@ namespace ISSHAR.DAL.Repositories
         {
             return await _context.Bookings.AsNoTracking()
                 .Include(b => b.User)
-                .Where(b => b.HallId == hallId && b.StartDate.Date.Equals(date)).ToListAsync();
+                .Where(b => b.HallId == hallId && b.StartDate.Date == date.ToDateTime(TimeOnly.MinValue).Date)
+                .ToListAsync();
         }
         public async Task<ICollection<Booking>> GetByUserIdAsync(int userId)
         {
