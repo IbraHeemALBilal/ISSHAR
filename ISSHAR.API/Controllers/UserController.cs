@@ -42,10 +42,12 @@ namespace ISSHAR.API.Controllers
             var receivers = await _userService.GetReceiversOfCartAsync(cartId);
             return Ok(receivers);
         }
+        [Authorize]
+        [HttpGet("filtered")]
         public async Task<ActionResult<ICollection<UserInfoDTO>>> GetFilteredAsync([FromQuery] UserFilterBody userFilterBody)
         {
-            var Users = await _userService.GetFilteredHallsAsync(userFilterBody);
-            return Ok(Users);
+            var users = await _userService.GetFilteredHallsAsync(userFilterBody);
+            return Ok(users);
         }
     }
 }
