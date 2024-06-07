@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ISSHAR.Application.DTOs.HallDTOs;
 using ISSHAR.Application.DTOs.UserDTOs;
 using ISSHAR.DAL.Entities;
 using ISSHAR.DAL.Repositories;
@@ -113,6 +114,20 @@ namespace ISSHAR.Application.Services
             return userDTO.ImageFile == null ? defaultImageUrl : await _cloudinary.UploadImageAsync(userDTO.ImageFile);
         }
 
-
+        public async Task<ICollection<UserInfoDTO>> GetFilteredHallsAsync(UserFilterBody filter)
+        {
+            try
+            {
+                var users = await _userRepository.GetFilteredUsersAsync(filter.FirstName,filter.FatherName,filter.GrandFatherName,
+                                                                        filter.FamilyName,filter.City,filter.Gender);
+                var UserDTOs = _mapper.Map<ICollection<UserInfoDTO>>(users);
+                return UserDTOs;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting filtered Users.");
+                throw;
+            }
+        }
     }
 }
