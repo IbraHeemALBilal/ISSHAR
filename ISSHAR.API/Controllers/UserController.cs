@@ -1,4 +1,5 @@
-﻿using ISSHAR.Application.DTOs.UserDTOs;
+﻿using ISSHAR.Application.DTOs.HallDTOs;
+using ISSHAR.Application.DTOs.UserDTOs;
 using ISSHAR.Application.Services;
 using ISSHAR.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -40,6 +41,11 @@ namespace ISSHAR.API.Controllers
         {
             var receivers = await _userService.GetReceiversOfCartAsync(cartId);
             return Ok(receivers);
+        }
+        public async Task<ActionResult<ICollection<UserInfoDTO>>> GetFilteredAsync([FromQuery] UserFilterBody userFilterBody)
+        {
+            var Users = await _userService.GetFilteredHallsAsync(userFilterBody);
+            return Ok(Users);
         }
     }
 }
