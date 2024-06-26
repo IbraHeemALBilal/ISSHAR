@@ -25,11 +25,11 @@ namespace ISSHAR.Application.Services
             _cloudinary = cloudinary;
         }
 
-        public async Task<ICollection<HallDisplayDTO>> GetHallsByStatusAsync(Status status)
+        public async Task<ICollection<HallDisplayDTO>> GetHallsByStatusAsync(Status status, int page, int pageSize)
         {
             try
             {
-                var halls = await _hallRepository.GetByStatusAsync(status);
+                var halls = await _hallRepository.GetByStatusAsync(status, page, pageSize);
                 var hallDtos = _mapper.Map<ICollection<HallDisplayDTO>>(halls);
                 return hallDtos;
             }

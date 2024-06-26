@@ -4,6 +4,7 @@ using ISSHAR.Application.Services;
 using ISSHAR.DAL.Entities;
 using ISSHAR.DAL.Enums;
 using ISSHAR.DAL.Repositories;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 
 namespace ISSHAR.Application.Services
@@ -14,7 +15,6 @@ namespace ISSHAR.Application.Services
         private readonly IMapper _mapper;
         private readonly ILogger<IAdvertisementService> _logger;
         private readonly IImageService _cloudinary;
-
         public AdvertisementService(IAdvertisementRepository advertisementRepository, IMapper mapper, ILogger<IAdvertisementService> logger, IImageService cloudinary)
         {
             _advertisementRepository = advertisementRepository;
@@ -23,11 +23,11 @@ namespace ISSHAR.Application.Services
             _cloudinary = cloudinary;
         }
 
-        public async Task<ICollection<AdvertisementDisplayDTO>> GetAdsByStatusAsync(Status status)
+        public async Task<ICollection<AdvertisementDisplayDTO>> GetAdsByStatusAsync(Status status, int page, int pageSize)
         {
             try
             {
-                var advertisements = await _advertisementRepository.GetByStatusAsync(status);
+                var advertisements = await _advertisementRepository.GetByStatusAsync(status, page, pageSize);
                 var advertisementDTOs = _mapper.Map<ICollection<AdvertisementDisplayDTO>>(advertisements);
                 return advertisementDTOs;
             }
@@ -135,7 +135,6 @@ namespace ISSHAR.Application.Services
                 }
                 advertisement.Status = status;
                 await _advertisementRepository.UpdateAsync(advertisement);
-
                 return true;
             }
             catch (Exception ex)

@@ -64,6 +64,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
  });
 
 builder.Services.AddControllers();
+builder.Services.AddSignalR();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddLogging();
@@ -73,17 +74,15 @@ builder.Services.AddAutoMapper(typeof(UserProfile).Assembly);
 builder.Services.AddSingleton(_ =>
 {
     var cloudinaryAccount = new Account(
-        builder.Configuration["Cloudinary:CloudName"],
-        builder.Configuration["Cloudinary:ApiKey"],
-        builder.Configuration["Cloudinary:ApiSecret"]);
+        configuration["Cloudinary:CloudName"],
+        configuration["Cloudinary:ApiKey"],
+        configuration["Cloudinary:ApiSecret"]);
 
     return new Cloudinary(cloudinaryAccount);
 });
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
+    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
 InjectServicesAndRepositories(builder);
 

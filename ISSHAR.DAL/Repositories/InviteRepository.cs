@@ -16,6 +16,7 @@ namespace ISSHAR.DAL.Repositories
                  .AsNoTracking()
                  .Where(i => i.ReceiverId == receiverId)
                  .Include(c => c.Sender)
+                 .Include(c=>c.Card)
                  .OrderByDescending(i=>i.Card.PartyDate)
                  .ToListAsync();
         }
@@ -33,7 +34,7 @@ namespace ISSHAR.DAL.Repositories
             return await _context.invites
                .AnyAsync(i => i.SenderId == senderId && i.ReceiverId == receiverId && i.CardId == cardId);
         }
-        public async Task SaveChangesAsync()
+        private async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
         }

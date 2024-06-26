@@ -8,6 +8,5 @@ namespace ISSHAR.DAL.Repositories
         Task<Invite> GetByIdAsync(int id);
         Task AddAsync(Invite invite);
         Task<bool>CheckIfInvitedBeforeAsnyc(int senderId , int receiverId , int cardId);
-        Task SaveChangesAsync();
     }
 }

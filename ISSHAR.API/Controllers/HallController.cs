@@ -17,18 +17,20 @@ namespace ISSHAR.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ICollection<HallDisplayDTO>>> GetAllAsync()
+        public async Task<ActionResult<ICollection<HallDisplayDTO>>> GetAllAsync(int page = 1, int pageSize = 10)
         {
-            var halls = await _hallService.GetHallsByStatusAsync(Status.Approved);
+            var halls = await _hallService.GetHallsByStatusAsync(Status.Approved, page, pageSize);
             return Ok(halls);
         }
+
         [Authorize(Roles = "Admin")]
         [HttpGet("pending")]
-        public async Task<ActionResult<ICollection<HallDisplayDTO>>> GetPendingAsync()
+        public async Task<ActionResult<ICollection<HallDisplayDTO>>> GetPendingAsync(int page = 1, int pageSize = 10)
         {
-            var halls = await _hallService.GetHallsByStatusAsync(Status.Pending);
+            var halls = await _hallService.GetHallsByStatusAsync(Status.Pending, page, pageSize);
             return Ok(halls);
         }
+
         [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<HallDisplayDTO>> GetByIdAsync(int id)

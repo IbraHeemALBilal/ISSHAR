@@ -21,11 +21,11 @@ namespace ISSHAR.Application.Services
             _cloudinary = cloudinary;
         }
 
-        public async Task<ICollection<UserInfoDTO>> GetAllUsersAsync()
+        public async Task<ICollection<UserInfoDTO>> GetAllUsersAsync(int page, int pageSize)
         {
             try
             {
-                var users = await _userRepository.GetAllAsync();
+                var users = await _userRepository.GetAllAsync(page, pageSize);
                 var userDTOs = _mapper.Map<ICollection<UserInfoDTO>>(users);
                 return userDTOs;
             }
