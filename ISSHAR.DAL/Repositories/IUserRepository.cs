@@ -4,7 +4,7 @@ namespace ISSHAR.DAL.Repositories
 {
     public interface IUserRepository
     {
-        Task<ICollection<User>> GetAllAsync();
+        Task<ICollection<User>> GetAllAsync(int page, int pageSize);
         Task<User> GetByIdAsync(int id);
         Task AddAsync(User user);
         Task<ICollection<User>> GetReceiversOfCartAsync(int cartId);
@@ -14,7 +14,5 @@ namespace ISSHAR.DAL.Repositories
            string? firstName, string? fatherName,
            string? grandFatherName, string? familyName,
            string? city, string? gender);
-        Task SaveChangesAsync();
-
     }
 }

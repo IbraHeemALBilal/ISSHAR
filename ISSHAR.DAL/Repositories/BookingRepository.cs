@@ -67,7 +67,7 @@ namespace ISSHAR.DAL.Repositories
 
             return hasFutureBookings;
         }
-        public async Task SaveChangesAsync()
+        private async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
         }

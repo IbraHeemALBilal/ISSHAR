@@ -19,9 +19,9 @@ namespace ISSHAR.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ICollection<UserInfoDTO>>> GetAllUsers()
+        public async Task<ActionResult<ICollection<UserInfoDTO>>> GetAllUsers(int page = 1, int pageSize = 10)
         {
-            var users = await _userService.GetAllUsersAsync();
+            var users = await _userService.GetAllUsersAsync(page, pageSize);
             return Ok(users);
         }
 

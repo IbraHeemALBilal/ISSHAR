@@ -8,6 +8,5 @@ namespace ISSHAR.DAL.Repositories
         Task<CardTemplet> GetByIdAsync(int id);
         Task AddAsync(CardTemplet cardTemplet);
         Task DeleteAsync(CardTemplet cardTemplet);
-        Task SaveChangesAsync();
     }
 }

@@ -11,11 +11,13 @@ namespace ISSHAR.DAL.Repositories
         {
             _context = context;
         }
-        public async Task<ICollection<Advertisement>> GetByStatusAsync(Status status)
+        public async Task<ICollection<Advertisement>> GetByStatusAsync(Status status, int page, int pageSize)
         {
             return await _context.Advertisements.AsNoTracking()
                 .Where(a => a.Status == status)
-                .OrderByDescending(a=>a.DatePosted)
+                .OrderByDescending(a => a.DatePosted)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
         }
         public async Task<Advertisement> GetByIdAsync(int id)
@@ -37,7 +39,7 @@ namespace ISSHAR.DAL.Repositories
             _context.Advertisements.Remove(advertisement);
             await SaveChangesAsync();
         }
-        public async Task SaveChangesAsync()
+        private async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
         }

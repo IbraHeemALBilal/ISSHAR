@@ -12,10 +12,16 @@ namespace ISSHAR.DAL.Repositories
         {
             _context = context;
         }
-        public async Task<ICollection<Hall>> GetByStatusAsync(Status status)
+        public async Task<ICollection<Hall>> GetByStatusAsync(Status status, int page, int pageSize)
         {
-            return await _context.Halls.AsNoTracking().Where(h=>h.Status==status).ToListAsync();
+            return await _context.Halls.AsNoTracking()
+                .Where(h => h.Status == status)
+                .OrderBy(h => h.HallId)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
         }
+
         public async Task<Hall> GetByIdAsync(int id)
         {
             return await _context.Halls.AsNoTracking().Include(c => c.HallImages).FirstOrDefaultAsync(a => a.HallId == id);
@@ -39,7 +45,7 @@ namespace ISSHAR.DAL.Repositories
         {
             return await _context.Halls.AsNoTracking().Where(a => a.OwnerId == id).ToListAsync();
         }
-        public async Task SaveChangesAsync()
+        private async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
         }

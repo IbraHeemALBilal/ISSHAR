@@ -5,7 +5,7 @@ namespace ISSHAR.Application.Services
 {
     public interface IHallService
     {
-        Task<ICollection<HallDisplayDTO>> GetHallsByStatusAsync(Status status);
+        Task<ICollection<HallDisplayDTO>> GetHallsByStatusAsync(Status status, int page, int pageSize);
         Task<HallDisplayDTO> GetByIdAsync(int id);
         Task<HallDisplayDTO> AddAsync(HallDTO hallDTO);
         Task<bool> UpdateAsync(int id, HallDTO hallDTO);

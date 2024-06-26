@@ -14,10 +14,16 @@ namespace ISSHAR.DAL.Repositories
             _context = context;
         }
 
-        public async Task<ICollection<User>> GetAllAsync()
+        public async Task<ICollection<User>> GetAllAsync(int page, int pageSize)
         {
-            return await _context.Users.AsNoTracking().Where(u=>u.Role != Role.Admin).ToListAsync();
+            return await _context.Users.AsNoTracking()
+                .Where(u => u.Role != Role.Admin)
+                .OrderBy(u => u.UserId) 
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
         }
+
 
         public async Task<User> GetByIdAsync(int id)
         {
@@ -39,7 +45,7 @@ namespace ISSHAR.DAL.Repositories
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
             return user?.VerifyPassword(password) ?? false;
         }
-        public async Task SaveChangesAsync()
+        private async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
         }

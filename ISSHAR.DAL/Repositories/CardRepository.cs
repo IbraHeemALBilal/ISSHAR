@@ -34,7 +34,7 @@ namespace ISSHAR.DAL.Repositories
             await SaveChangesAsync();
         }
 
-        public async Task SaveChangesAsync()
+        private async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
         }

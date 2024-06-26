@@ -147,7 +147,7 @@ namespace ISSHAR.DAL.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 2, 17, 0, 18, 648, DateTimeKind.Local).AddTicks(858));
+                        .HasDefaultValue(new DateTime(2024, 6, 12, 16, 6, 56, 227, DateTimeKind.Local).AddTicks(1381));
 
                     b.Property<string>("JsonData")
                         .IsRequired()
@@ -260,6 +260,37 @@ namespace ISSHAR.DAL.Migrations
                     b.HasIndex("SenderId");
 
                     b.ToTable("invites");
+                });
+
+            modelBuilder.Entity("ISSHAR.DAL.Entities.Notification", b =>
+                {
+                    b.Property<int>("NotificationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NotificationId"), 1L, 1);
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("NotificationId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("ISSHAR.DAL.Entities.User", b =>
@@ -416,6 +447,17 @@ namespace ISSHAR.DAL.Migrations
                     b.Navigation("Sender");
                 });
 
+            modelBuilder.Entity("ISSHAR.DAL.Entities.Notification", b =>
+                {
+                    b.HasOne("ISSHAR.DAL.Entities.User", "User")
+                        .WithMany("Notifications")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ISSHAR.DAL.Entities.Card", b =>
                 {
                     b.Navigation("Invites");
@@ -437,6 +479,8 @@ namespace ISSHAR.DAL.Migrations
                     b.Navigation("Cards");
 
                     b.Navigation("Halls");
+
+                    b.Navigation("Notifications");
 
                     b.Navigation("ReceivedInvites");
 

@@ -17,16 +17,16 @@ namespace ISSHAR.API.Controllers
             _advertisementService = advertisementService;
         }
         [HttpGet]
-        public async Task<ActionResult<ICollection<AdvertisementDisplayDTO>>> GetAllAsync()
+        public async Task<ActionResult<ICollection<AdvertisementDisplayDTO>>> GetAllAsync(int page = 1, int pageSize = 10)
         {
-            var advertisements = await _advertisementService.GetAdsByStatusAsync(Status.Approved);
+            var advertisements = await _advertisementService.GetAdsByStatusAsync(Status.Approved, page, pageSize);
             return Ok(advertisements);
         }
         [Authorize(Roles = "Admin")]
         [HttpGet("pending")]
-        public async Task<ActionResult<ICollection<AdvertisementDisplayDTO>>> GetPendingAsync()
+        public async Task<ActionResult<ICollection<AdvertisementDisplayDTO>>> GetPendingAsync(int page = 1, int pageSize = 10)
         {
-            var advertisements = await _advertisementService.GetAdsByStatusAsync(Status.Pending);
+            var advertisements = await _advertisementService.GetAdsByStatusAsync(Status.Pending, page, pageSize);
             return Ok(advertisements);
         }
         [HttpGet("{id}")]

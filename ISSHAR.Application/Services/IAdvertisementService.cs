@@ -5,8 +5,7 @@ namespace ISSHAR.Application.Services
 {
     public interface IAdvertisementService
     {
-        Task<ICollection<AdvertisementDisplayDTO>> GetAdsByStatusAsync(Status status);
-        Task<AdvertisementDisplayDTO> GetByIdAsync(int id);
+        Task<ICollection<AdvertisementDisplayDTO>> GetAdsByStatusAsync(Status status, int page, int pageSize);        Task<AdvertisementDisplayDTO> GetByIdAsync(int id);
         Task<AdvertisementDisplayDTO> AddAsync(AdvertisementDTO advertisementDTO);
         Task<bool> DeleteAsync(int id);
         Task<ICollection<AdvertisementDisplayDTO>> GetAdsByUserAsync(int userId);
