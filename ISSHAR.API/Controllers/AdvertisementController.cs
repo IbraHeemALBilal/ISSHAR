@@ -57,6 +57,7 @@ namespace ISSHAR.API.Controllers
         }
         [Authorize(Roles = "Reguler, HallOwner")]
         [HttpGet("user/{userId}")]
+        [UserIdAuthorization("userId")]
         public async Task<ActionResult<ICollection<AdvertisementDisplayDTO>>> GetAdsByUserAsync(int userId)
         {
             var advertisements = await _advertisementService.GetAdsByUserAsync(userId);

@@ -1,5 +1,6 @@
 using CloudinaryDotNet;
-using ISSHAR.API;
+using ISSHAR.API.Interfaces;
+using ISSHAR.API.Services;
 using ISSHAR.Application.Profiles;
 using ISSHAR.Application.Services;
 using ISSHAR.DAL;

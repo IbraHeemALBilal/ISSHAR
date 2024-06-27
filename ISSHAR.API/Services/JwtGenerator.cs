@@ -1,10 +1,11 @@
-﻿using ISSHAR.Application.DTOs.UserDTOs;
+﻿using ISSHAR.API.Interfaces;
+using ISSHAR.Application.DTOs.UserDTOs;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace ISSHAR.API
+namespace ISSHAR.API.Services
 {
     public class JwtGenerator : IJwtGenerator
     {
@@ -24,7 +25,7 @@ namespace ISSHAR.API
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                     new Claim(ClaimTypes.Role, user.Role.ToString()),
                 }),
                 Expires = DateTime.UtcNow.AddHours(Convert.ToDouble(_configuration["JwtSettings:ExpirationHours"])),

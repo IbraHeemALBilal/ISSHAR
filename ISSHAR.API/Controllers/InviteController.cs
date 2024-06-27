@@ -18,6 +18,7 @@ namespace ISSHAR.API.Controllers
         }
 
         [HttpGet("receiver/{receiverId}")]
+        [UserIdAuthorization("receiverId")]
         public async Task<ActionResult<ICollection<InviteDisplayDTO>>> GetByReceiverIdAsync(int receiverId)
         {
             var inviteDTOs = await _inviteService.GetByReceiverIdAsync(receiverId);

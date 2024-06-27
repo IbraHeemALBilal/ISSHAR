@@ -18,6 +18,7 @@ namespace ISSHAR.API.Controllers
         }
 
         [HttpGet("creator/{id}")]
+        [UserIdAuthorization("id")]
         public async Task<ActionResult<IEnumerable<CardDTO>>> GetCardsByCreatorId(int id)
         {
             var cards = await _cardService.GetByCreaterId(id);

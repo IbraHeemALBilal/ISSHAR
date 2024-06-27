@@ -1,6 +1,6 @@
 ﻿using ISSHAR.Application.DTOs.UserDTOs;
 
-namespace ISSHAR.API
+namespace ISSHAR.API.Interfaces
 {
     public interface IJwtGenerator
     {
