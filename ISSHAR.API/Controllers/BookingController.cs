@@ -22,6 +22,7 @@ namespace ISSHAR.API.Controllers
             var bookings = await _bookingService.GetAllAsync();
             return Ok(bookings);
         }
+
         [Authorize(Roles = "Reguler, HallOwner")]
         [HttpGet("{id}")]
         public async Task<ActionResult<BookingDisplayDTO>> GetByIdAsync(int id)
@@ -31,6 +32,7 @@ namespace ISSHAR.API.Controllers
                 return NotFound();
             return Ok(booking);
         }
+
         [Authorize(Roles = "Reguler, HallOwner")]
         [HttpPost]
         public async Task<ActionResult> AddAsync(BookingDTO bookingDTO)
@@ -40,6 +42,7 @@ namespace ISSHAR.API.Controllers
                 return Ok("Booking added successfully.");
             else return Conflict("Booking conflicts with existing booking.");
         }
+
         [Authorize(Roles = "Reguler, HallOwner")]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateAsync(int id, BookingDTO bookingDTO)
@@ -50,6 +53,7 @@ namespace ISSHAR.API.Controllers
 
             return Ok("Booking updated successfully.");
         }
+
         [Authorize(Roles = "Reguler, HallOwner")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAsync(int id)
@@ -59,6 +63,7 @@ namespace ISSHAR.API.Controllers
                 return Conflict("Start date is within 7 days.");
             return Ok("Booking deleted successfully.");
         }
+
         [Authorize(Roles = "HallOwner")]
         [HttpGet("hall/{hallId}")]
         public async Task<ActionResult<ICollection<BookingDisplayDTO>>> GetByHallIdAsync(int hallId)
@@ -66,6 +71,7 @@ namespace ISSHAR.API.Controllers
             var bookings = await _bookingService.GetByHallIdAsync(hallId);
             return Ok(bookings);
         }
+
         [Authorize(Roles = "HallOwner")]
         [HttpGet("hall/{hallId}/{date}")]
         public async Task<ActionResult<ICollection<BookingDisplayDTO>>> GetByHallIdAndDateAsync(int hallId, string date)
@@ -78,11 +84,13 @@ namespace ISSHAR.API.Controllers
 
         [Authorize(Roles = "Reguler, HallOwner")]
         [HttpGet("user/{userId}")]
+        [UserIdAuthorization("userId")]
         public async Task<ActionResult<ICollection<BookingDisplayDTO>>> GetByUserIdAsync(int userId)
         {
             var bookings = await _bookingService.GetByUserIdAsync(userId);
             return Ok(bookings);
         }
+
         [Authorize(Roles = "Reguler, HallOwner")]
         [HttpPost("hall/{hallId}/availability")]
         public async Task<ActionResult<bool>> CheckHallAvailabilityAsync(int hallId, [FromBody] DateRangeDTO dateRange)

@@ -1,4 +1,5 @@
-﻿using ISSHAR.Application.DTOs.UserDTOs;
+﻿using ISSHAR.API.Interfaces;
+using ISSHAR.Application.DTOs.UserDTOs;
 using ISSHAR.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 

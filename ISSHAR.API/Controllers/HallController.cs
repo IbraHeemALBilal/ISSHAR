@@ -68,6 +68,7 @@ namespace ISSHAR.API.Controllers
         }
         [Authorize(Roles = "HallOwner")]
         [HttpGet("owner/{ownerId}")]
+        [UserIdAuthorization("ownerId")]
         public async Task<ActionResult<ICollection<HallDisplayDTO>>> GetByOwnerId(int ownerId)
         {
             var halls = await _hallService.GetByOwnerIdAsync(ownerId);
