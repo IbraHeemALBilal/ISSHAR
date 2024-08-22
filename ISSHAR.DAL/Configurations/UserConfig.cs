@@ -1,4 +1,5 @@
 ﻿using ISSHAR.DAL.Entities;
+using ISSHAR.DAL.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -21,6 +22,7 @@ namespace ISSHAR.DAL.Configurations
             builder.Property(u => u.Gender).IsRequired();
             builder.Property(u => u.City).IsRequired();
             builder.Property(u => u.Role).IsRequired().HasMaxLength(20);
+            builder.HasQueryFilter(u => u.Role != Role.Admin);
 
             builder.HasMany(u => u.Bookings)
                   .WithOne(b => b.User)

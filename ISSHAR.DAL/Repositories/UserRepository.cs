@@ -17,13 +17,11 @@ namespace ISSHAR.DAL.Repositories
         public async Task<ICollection<User>> GetAllAsync(int page, int pageSize)
         {
             return await _context.Users.AsNoTracking()
-                .Where(u => u.Role != Role.Admin)
                 .OrderBy(u => u.UserId) 
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
         }
-
 
         public async Task<User> GetByIdAsync(int id)
         {
@@ -64,8 +62,7 @@ namespace ISSHAR.DAL.Repositories
                             (string.IsNullOrWhiteSpace(grandFatherName) || u.GrandFatherName == grandFatherName) &&
                             (string.IsNullOrWhiteSpace(familyName) || u.FamilyName == familyName) &&
                             (string.IsNullOrWhiteSpace(city) || u.City == city) &&
-                            (string.IsNullOrWhiteSpace(gender) || u.Gender == gender) &&
-                            u.Role != Role.Admin)
+                            (string.IsNullOrWhiteSpace(gender) || u.Gender == gender))
                 .AsNoTracking()
                 .ToListAsync();
         }

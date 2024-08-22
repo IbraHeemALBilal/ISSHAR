@@ -14,78 +14,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
 
-builder.Services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "ISHHAR", Version = "v1" });
-
-    var jwtSettings = configuration.GetSection("JwtSettings");
-    var key = Encoding.ASCII.GetBytes(jwtSettings["Secret"]);
-
-    options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-    {
-        Description = "JWT Authorization header using the Bearer scheme. Enter 'Bearer' [space] and then your token in the text input below.",
-        Name = "Authorization",
-        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey
-    });
-
-    options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
-                {
-                    {
-                        new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-                        {
-                            Reference = new Microsoft.OpenApi.Models.OpenApiReference
-                            {
-                                Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                        },
-                        Array.Empty<string>()
-                    }
-                });
-});
-
-var jwtIssuer = builder.Configuration.GetSection("JwtSettings:Issuer").Get<string>();
-var jwtKey = builder.Configuration.GetSection("JwtSettings:Secret").Get<string>();
-var jwtAudience = builder.Configuration.GetSection("JwtSettings:Audience").Get<string>();
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
- .AddJwtBearer(options =>
- {
-     options.TokenValidationParameters = new TokenValidationParameters
-     {
-         ValidateIssuer = true,
-         ValidateAudience = true,
-         ValidateLifetime = true,
-         ValidateIssuerSigningKey = true,
-         ValidIssuer = jwtIssuer,
-         ValidAudience = jwtAudience,
-         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
-     };
- });
+ConfigureSwaggerServices(builder.Services, configuration);
+ConfigureJwtAuthentication(builder.Services, configuration);
+ConfigureCloudinaryServices(builder.Services, configuration);
 
 builder.Services.AddControllers();
 builder.Services.AddSignalR();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 builder.Services.AddLogging();
-
 builder.Services.AddAutoMapper(typeof(UserProfile).Assembly);
-
-builder.Services.AddSingleton(_ =>
-{
-    var cloudinaryAccount = new Account(
-        configuration["Cloudinary:CloudName"],
-        configuration["Cloudinary:ApiKey"],
-        configuration["Cloudinary:ApiSecret"]);
-
-    return new Cloudinary(cloudinaryAccount);
-});
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-InjectServicesAndRepositories(builder);
+InjectServicesAndRepositories(builder.Services);
 
 builder.Services.AddCors(options =>
 {
@@ -108,11 +50,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 app.UseAuthentication();
-
-
 app.UseHttpsRedirection();
 app.UseAuthorization();
-
 app.UseCors("AllowAllOrigins");
 
 app.UseEndpoints(endpoints =>
@@ -122,30 +61,99 @@ app.UseEndpoints(endpoints =>
 
 app.Run();
 
-static void InjectServicesAndRepositories(WebApplicationBuilder builder)
+static void ConfigureSwaggerServices(IServiceCollection services, IConfiguration configuration)
 {
-    builder.Services.AddSingleton<IJwtGenerator,JwtGenerator>();
+    services.AddSwaggerGen(options =>
+    {
+        options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "ISHHAR", Version = "v1" });
 
-    builder.Services.AddScoped<IImageService, CloudinaryImageService>();
+        var jwtSettings = configuration.GetSection("JwtSettings");
+        var key = Encoding.ASCII.GetBytes(jwtSettings["Secret"]);
 
-    builder.Services.AddScoped<IUserRepository, UserRepository>();
-    builder.Services.AddScoped<IAdvertisementRepository, AdvertisementRepository>();
+        options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+        {
+            Description = "JWT Authorization header using the Bearer scheme. Enter 'Bearer' [space] and then your token in the text input below.",
+            Name = "Authorization",
+            In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+            Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey
+        });
 
-    builder.Services.AddScoped<IUserService, UserService>();
-    builder.Services.AddScoped<IAdvertisementService, AdvertisementService>();
+        options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+        {
+            {
+                new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                {
+                    Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                    {
+                        Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
+                },
+                Array.Empty<string>()
+            }
+        });
+    });
+}
 
-    builder.Services.AddScoped<IHallRepository, HallRepository>();
-    builder.Services.AddScoped<IHallService, HallService>();
+static void ConfigureJwtAuthentication(IServiceCollection services, IConfiguration configuration)
+{
+    var jwtIssuer = configuration.GetSection("JwtSettings:Issuer").Get<string>();
+    var jwtKey = configuration.GetSection("JwtSettings:Secret").Get<string>();
+    var jwtAudience = configuration.GetSection("JwtSettings:Audience").Get<string>();
 
-    builder.Services.AddScoped<IBookingRepository, BookingRepository>();
-    builder.Services.AddScoped<IBookingService, BookingService>();
+    services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = jwtIssuer,
+                ValidAudience = jwtAudience,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+            };
+        });
+}
 
-    builder.Services.AddScoped<ICardTempleteRepository, CardTempleteRepository>();
-    builder.Services.AddScoped<ICardTempleteService, CardTempleteService>();
+static void ConfigureCloudinaryServices(IServiceCollection services, IConfiguration configuration)
+{
+    services.AddSingleton(_ =>
+    {
+        var cloudinaryAccount = new Account(
+            configuration["Cloudinary:CloudName"],
+            configuration["Cloudinary:ApiKey"],
+            configuration["Cloudinary:ApiSecret"]);
 
-    builder.Services.AddScoped<ICardRepository, CardRepository>();
-    builder.Services.AddScoped<ICardService, CardService>();
+        return new Cloudinary(cloudinaryAccount);
+    });
+}
 
-    builder.Services.AddScoped<IInviteRepository, InviteRepository>();
-    builder.Services.AddScoped<IInviteService, InviteService>();
+static void InjectServicesAndRepositories(IServiceCollection services)
+{
+    services.AddSingleton<IJwtGenerator, JwtGenerator>();
+
+    services.AddScoped<IImageService, CloudinaryImageService>();
+
+    services.AddScoped<IUserRepository, UserRepository>();
+    services.AddScoped<IAdvertisementRepository, AdvertisementRepository>();
+
+    services.AddScoped<IUserService, UserService>();
+    services.AddScoped<IAdvertisementService, AdvertisementService>();
+
+    services.AddScoped<IHallRepository, HallRepository>();
+    services.AddScoped<IHallService, HallService>();
+
+    services.AddScoped<IBookingRepository, BookingRepository>();
+    services.AddScoped<IBookingService, BookingService>();
+
+    services.AddScoped<ICardTempleteRepository, CardTempleteRepository>();
+    services.AddScoped<ICardTempleteService, CardTempleteService>();
+
+    services.AddScoped<ICardRepository, CardRepository>();
+    services.AddScoped<ICardService, CardService>();
+
+    services.AddScoped<IInviteRepository, InviteRepository>();
+    services.AddScoped<IInviteService, InviteService>();
 }
