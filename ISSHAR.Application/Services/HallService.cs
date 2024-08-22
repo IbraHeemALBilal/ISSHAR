@@ -14,15 +14,15 @@ namespace ISSHAR.Application.Services
         private readonly IBookingRepository _bookingRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<IHallService> _logger;
-        private readonly IImageService _cloudinary;
+        private readonly IImageService _imageService;
 
-        public HallService(IHallRepository hallRepository,IBookingRepository bookingRepository, IMapper mapper, ILogger<IHallService> logger,IImageService cloudinary)
+        public HallService(IHallRepository hallRepository,IBookingRepository bookingRepository, IMapper mapper, ILogger<IHallService> logger,IImageService imageService)
         {
             _hallRepository = hallRepository;
             _bookingRepository = bookingRepository;
             _mapper = mapper;
             _logger = logger;
-            _cloudinary = cloudinary;
+            _imageService = imageService;
         }
 
         public async Task<ICollection<HallDisplayDTO>> GetHallsByStatusAsync(Status status, int page, int pageSize)
@@ -184,14 +184,14 @@ namespace ISSHAR.Application.Services
             var hallImages = new List<HallImage>();
             foreach (var file in imagesAsFiles)
             {
-                hallImages.Add(new HallImage { ImageUrl = await _cloudinary.UploadImageAsync(file) });
+                hallImages.Add(new HallImage { ImageUrl = await _imageService.UploadImageAsync(file) });
             }
             return hallImages;
         }
 
         private async Task<string> GetHallLogoUrl(IFormFile logoFile)
         {
-            return logoFile == null ? DefaultImageUrls.HallLogoUrl : await _cloudinary.UploadImageAsync(logoFile);
+            return logoFile == null ? DefaultImageUrls.HallLogoUrl : await _imageService.UploadImageAsync(logoFile);
         }
     }
 }

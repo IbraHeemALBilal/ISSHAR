@@ -12,13 +12,13 @@ namespace ISSHAR.Application.Services
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<IUserService> _logger;
-        private readonly IImageService _cloudinary;
-        public UserService(IUserRepository userRepository, IMapper mapper , ILogger<IUserService> logger, IImageService cloudinary)
+        private readonly IImageService _imageService;
+        public UserService(IUserRepository userRepository, IMapper mapper , ILogger<IUserService> logger, IImageService imageService)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _logger = logger;
-            _cloudinary = cloudinary;
+            _imageService = imageService;
         }
 
         public async Task<ICollection<UserInfoDTO>> GetAllUsersAsync(int page, int pageSize)
@@ -111,7 +111,7 @@ namespace ISSHAR.Application.Services
         {
             string defaultImageUrl = userDTO.Gender == "Male" ? DefaultImageUrls.MaleImageUrl : DefaultImageUrls.FemaleImageUrl;
 
-            return userDTO.ImageFile == null ? defaultImageUrl : await _cloudinary.UploadImageAsync(userDTO.ImageFile);
+            return userDTO.ImageFile == null ? defaultImageUrl : await _imageService.UploadImageAsync(userDTO.ImageFile);
         }
 
         public async Task<ICollection<UserInfoDTO>> GetFilteredHallsAsync(UserFilterBody filter)
