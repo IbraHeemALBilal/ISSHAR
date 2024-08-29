@@ -1,5 +1,6 @@
 using CloudinaryDotNet;
 using ISSHAR.API.Interfaces;
+using ISSHAR.API.Middlewares;
 using ISSHAR.API.Services;
 using ISSHAR.Application.Profiles;
 using ISSHAR.Application.Services;
@@ -50,6 +51,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 app.UseAuthentication();
+app.UseMiddleware<JwtWhitelistMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseCors("AllowAllOrigins");
@@ -133,6 +135,7 @@ static void ConfigureCloudinaryServices(IServiceCollection services, IConfigurat
 static void InjectServicesAndRepositories(IServiceCollection services)
 {
     services.AddSingleton<IJwtGenerator, JwtGenerator>();
+    services.AddSingleton<IJwtWhitelistService, JwtWhitelistService>();
 
     services.AddScoped<IImageService, CloudinaryImageService>();
 

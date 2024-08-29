@@ -11,11 +11,13 @@ namespace ISSHAR.API.Controllers
     {
         private readonly IUserService _userService;
         private readonly IJwtGenerator _jwtGenerator;
+        private readonly IJwtWhitelistService _jwtWhitelistService;
 
-        public AuthenticationController(IUserService userService, IJwtGenerator jwtGenerator)
+        public AuthenticationController(IUserService userService, IJwtGenerator jwtGenerator , IJwtWhitelistService jwtWhitelistService)
         {
             _userService = userService;
             _jwtGenerator = jwtGenerator;
+            _jwtWhitelistService = jwtWhitelistService;
         }
 
         [HttpPost("register")]
@@ -40,7 +42,7 @@ namespace ISSHAR.API.Controllers
             }
             var userDto = await _userService.GetUserByEmailAsync(loginBody.Email);
             var tokenString = _jwtGenerator.GenerateJwtToken(userDto);
-
+            await _jwtWhitelistService.AddTokenAsync(tokenString);
             return Ok(new
             {
                 UserId = userDto.UserId,
@@ -49,6 +51,15 @@ namespace ISSHAR.API.Controllers
                 Role = userDto.Role,
                 Token = tokenString
             });
+        }
+        [HttpPost("logout")]
+        public async Task<ActionResult> LogOut()
+        {
+            var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            await _jwtWhitelistService.RemoveTokenAsync(token);
+
+            return Ok("Logged out successfully.");
         }
     }
 }

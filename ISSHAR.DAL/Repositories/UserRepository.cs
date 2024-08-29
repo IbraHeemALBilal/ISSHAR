@@ -40,7 +40,10 @@ namespace ISSHAR.DAL.Repositories
         }
         public async Task<bool> CheckPasswordAsync(string email, string password)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            var user = await _context.Users
+                .AsNoTracking()
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(u => u.Email == email);
             return user?.VerifyPassword(password) ?? false;
         }
         private async Task SaveChangesAsync()
@@ -49,7 +52,7 @@ namespace ISSHAR.DAL.Repositories
         }
         public async Task<User> GetUserByEmailAsync(string email)
         {
-            return await _context.Users.AsNoTracking().FirstOrDefaultAsync(e => e.Email == email);
+            return await _context.Users.AsNoTracking().IgnoreQueryFilters().FirstOrDefaultAsync(e => e.Email == email);
         }
         public async Task<ICollection<User>> GetFilteredUsersAsync(
             string? firstName, string? fatherName,
