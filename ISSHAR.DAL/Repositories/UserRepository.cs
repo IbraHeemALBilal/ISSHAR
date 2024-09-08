@@ -25,7 +25,9 @@ namespace ISSHAR.DAL.Repositories
 
         public async Task<User> GetByIdAsync(int id)
         {
-            return await _context.Users.AsNoTracking().FirstOrDefaultAsync(u=>u.UserId== id);
+            return await _context.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u=>u.UserId== id);
         }
 
         public async Task AddAsync(User user)
@@ -36,7 +38,10 @@ namespace ISSHAR.DAL.Repositories
         }
         public async Task<ICollection<User>> GetReceiversOfCartAsync(int cartId)
         {
-            return await _context.Users.AsNoTracking().Where(u=>u.ReceivedInvites.Any(r=>r.CardId== cartId)).ToListAsync();
+            return await _context.Users
+                .AsNoTracking()
+                .Where(u=>u.ReceivedInvites.Any(r=>r.CardId== cartId))
+                .ToListAsync();
         }
         public async Task<bool> CheckPasswordAsync(string email, string password)
         {
@@ -52,7 +57,10 @@ namespace ISSHAR.DAL.Repositories
         }
         public async Task<User> GetUserByEmailAsync(string email)
         {
-            return await _context.Users.AsNoTracking().IgnoreQueryFilters().FirstOrDefaultAsync(e => e.Email == email);
+            return await _context.Users
+                .AsNoTracking()
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(e => e.Email == email);
         }
         public async Task<ICollection<User>> GetFilteredUsersAsync(
             string? firstName, string? fatherName,

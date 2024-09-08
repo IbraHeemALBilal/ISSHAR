@@ -13,13 +13,18 @@ namespace ISSHAR.DAL.Repositories
 
         public async Task<ICollection<Card>> GetByCreaterIdAsync(int id)
         {
-            return await _context.Cards.AsNoTracking().Where(c=>c.UserId==id)
-                .OrderByDescending(c=>c.PartyDate).ToListAsync();
+            return await _context.Cards
+                .AsNoTracking()
+                .Where(c=>c.UserId==id)
+                .OrderByDescending(c=>c.PartyDate)
+                .ToListAsync();
         }
 
         public async Task<Card> GetByIdAsync(int id)
         {
-            return await _context.Cards.AsNoTracking().FirstOrDefaultAsync(a => a.CardId == id);
+            return await _context.Cards
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => a.CardId == id);
         }
 
         public async Task AddAsync(Card card)

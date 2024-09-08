@@ -1,7 +1,5 @@
-﻿using ISSHAR.Application.DTOs.HallDTOs;
-using ISSHAR.Application.DTOs.UserDTOs;
+﻿using ISSHAR.Application.DTOs.UserDTOs;
 using ISSHAR.Application.Services;
-using ISSHAR.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

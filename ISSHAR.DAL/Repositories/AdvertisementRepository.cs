@@ -13,7 +13,8 @@ namespace ISSHAR.DAL.Repositories
         }
         public async Task<ICollection<Advertisement>> GetByStatusAsync(Status status, int page, int pageSize)
         {
-            return await _context.Advertisements.AsNoTracking()
+            return await _context.Advertisements
+                .AsNoTracking()
                 .Where(a => a.Status == status)
                 .OrderByDescending(a => a.DatePosted)
                 .Skip((page - 1) * pageSize)
@@ -22,7 +23,9 @@ namespace ISSHAR.DAL.Repositories
         }
         public async Task<Advertisement> GetByIdAsync(int id)
         {
-            return await _context.Advertisements.AsNoTracking().FirstOrDefaultAsync(a => a.AdvertisementId == id);
+            return await _context.Advertisements
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => a.AdvertisementId == id);
         }
         public async Task AddAsync(Advertisement advertisement)
         {
@@ -53,7 +56,8 @@ namespace ISSHAR.DAL.Repositories
         }
         public async Task<ICollection<Advertisement>> GetFilteredAdsAsync(string? city, string? serviceType)
         {
-            var filteredAds = await _context.Advertisements.AsNoTracking()
+            var filteredAds = await _context.Advertisements
+                .AsNoTracking()
                 .Where(ad => (city == null || ad.City == city) &&
                     (serviceType == null || ad.ServiceType == serviceType)&&
                     ad.Status== Status.Approved)

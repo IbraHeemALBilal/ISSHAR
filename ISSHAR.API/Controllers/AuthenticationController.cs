@@ -21,7 +21,7 @@ namespace ISSHAR.API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult> register([FromForm] UserDTO userDto)
+        public async Task<ActionResult> Register([FromForm] UserDTO userDto)
         {
             var existingUser = await _userService.GetUserByEmailAsync(userDto.Email);
             if (existingUser != null)
