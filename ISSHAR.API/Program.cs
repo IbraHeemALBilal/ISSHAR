@@ -20,7 +20,6 @@ ConfigureJwtAuthentication(builder.Services, configuration);
 ConfigureCloudinaryServices(builder.Services, configuration);
 
 builder.Services.AddControllers();
-builder.Services.AddSignalR();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddLogging();
 builder.Services.AddAutoMapper(typeof(UserProfile).Assembly);

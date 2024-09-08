@@ -22,7 +22,11 @@ namespace ISSHAR.DAL.Repositories
         }
         public async Task<Invite> GetByIdAsync(int id)
         {
-            return await _context.invites.AsNoTracking().Include(c => c.Sender).Include(c=>c.Card).FirstOrDefaultAsync(a => a.InviteId == id);
+            return await _context.invites
+                .AsNoTracking()
+                .Include(c => c.Sender)
+                .Include(c=>c.Card)
+                .FirstOrDefaultAsync(a => a.InviteId == id);
         }
         public async Task AddAsync(Invite invite)
         {

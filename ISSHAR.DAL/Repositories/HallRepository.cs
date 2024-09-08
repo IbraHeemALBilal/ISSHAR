@@ -24,7 +24,10 @@ namespace ISSHAR.DAL.Repositories
 
         public async Task<Hall> GetByIdAsync(int id)
         {
-            return await _context.Halls.AsNoTracking().Include(c => c.HallImages).FirstOrDefaultAsync(a => a.HallId == id);
+            return await _context.Halls
+                .AsNoTracking()
+                .Include(c => c.HallImages)
+                .FirstOrDefaultAsync(a => a.HallId == id);
         }
         public async Task AddAsync(Hall hall)
         {
@@ -43,7 +46,10 @@ namespace ISSHAR.DAL.Repositories
         }
         public async Task<ICollection<Hall>> GetByOwnerIdAsync(int id)
         {
-            return await _context.Halls.AsNoTracking().Where(a => a.OwnerId == id).ToListAsync();
+            return await _context.Halls
+                .AsNoTracking()
+                .Where(a => a.OwnerId == id)
+                .ToListAsync();
         }
         private async Task SaveChangesAsync()
         {

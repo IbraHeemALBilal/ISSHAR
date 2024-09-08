@@ -20,7 +20,9 @@ namespace ISSHAR.DAL.Repositories
 
         public async Task<CardTemplet> GetByIdAsync(int id)
         {
-            return await _context.CardTemplets.AsNoTracking().FirstOrDefaultAsync(a => a.CardTempletId == id);
+            return await _context.CardTemplets
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => a.CardTempletId == id);
         }
         public async Task AddAsync(CardTemplet cardTemplet)
         {
